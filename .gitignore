@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/PropFirm.Dto/bin/Debug/net10.0
+/PropFirm.Dto/bin/Release/net10.0
+/PropFirm.Dto/obj
+/PropFirm.RulesEngine/obj
+/propfirmapp.client/obj
+/PropFirmApp.Server/bin
+/PropFirmApp.Server/obj
+/.vs
+/ClassLibrary1/bin
+/ClassLibrary1/obj
+/PropFirm.MT5/obj
