@@ -9,6 +9,7 @@ import Register from './components/Registration';
 import RiskManagementTool from './components/RiskManagementTool';
 import RegistrationSuccessfulPage from './components/RegistrationSuccessful';
 import TraderSupportCenter from './components/Support';
+import TradingRules from './components/TradingRules';
 
 const App: React.FC = () => {
     return (
@@ -23,6 +24,7 @@ const App: React.FC = () => {
                     <Route path="/risktools" element={<RiskManagementTool />} />
                     <Route path="/registrationdone" element={<RegistrationSuccessfulPage />} />
                     <Route path="/support" element={<TraderSupportCenter />} />
+                    <Route path="/rules" element={<TradingRules />} />
                 </Routes>
             </Layout>
         </BrowserRouter>
