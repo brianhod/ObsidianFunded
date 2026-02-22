@@ -14,22 +14,26 @@ import TradingRules from './components/TradingRules';
 const App: React.FC = () => {
     return (
         <BrowserRouter>
-            <Layout>
-                <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/terms" element={<TermsAndConditions />} />
-                    <Route path="/purchase" element={<PurchaseEvaluation />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/risktools" element={<RiskManagementTool />} />
-                    <Route path="/registrationdone" element={<RegistrationSuccessfulPage />} />
-                    <Route path="/support" element={<TraderSupportCenter />} />
-                    <Route path="/rules" element={<TradingRules />} />
-                </Routes>
-            </Layout>
+            <Routes>
+
+                {/* Routes WITHOUT Layout */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+
+                {/* Routes WITH Layout */}
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path="terms" element={<TermsAndConditions />} />
+                    <Route path="purchase" element={<PurchaseEvaluation />} />
+                    <Route path="risktools" element={<RiskManagementTool />} />
+                    <Route path="registrationdone" element={<RegistrationSuccessfulPage />} />
+                    <Route path="support" element={<TraderSupportCenter />} />
+                    <Route path="rules" element={<TradingRules />} />
+                </Route>
+
+            </Routes>
         </BrowserRouter>
     );
 };
 
-
-export default App
+export default App;

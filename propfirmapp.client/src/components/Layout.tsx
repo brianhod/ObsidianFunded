@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Layout: React.FC = () => {
     const location = useLocation();
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -22,12 +22,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         return location.pathname === path || location.pathname.startsWith(path + '/');
     };
 
-    // Close drawer when route changes
     useEffect(() => {
         setMobileOpen(false);
     }, [location.pathname]);
 
-    // Prevent body scroll when drawer open
     useEffect(() => {
         if (!mobileOpen) return;
         const prev = document.body.style.overflow;
@@ -174,12 +172,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 </nav>
 
                 <div className="flex items-center gap-4">
-                    <Link
-                        to="/support"
-                        className="hidden sm:block text-[10px] uppercase tracking-widest text-white/40 border border-white/10 px-3 py-1.5 rounded hover:bg-white/5 transition-all"
-                    >
-                        Support
-                    </Link>
+            
 
                     <div className="w-8 h-8 rounded bg-primary/20 border border-primary/30 flex items-center justify-center text-primary font-bold text-xs">
                         JD
@@ -188,9 +181,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </header>
 
             <main className="relative z-10 flex-1 flex flex-col items-center justify-start px-4 pb-20 pt-4">
-                {children}
+                <Outlet />
             </main>
-
             <footer className="relative z-10 py-10 px-10 text-center text-[10px] text-white/20 uppercase tracking-[0.4em] font-display">
                 © 2024 Obsidian Funded Management Group. All Rights Reserved. Proprietary Performance Analytics.
             </footer>

@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace PropfirmApp.Domain
 {
-    internal class Profile
+    public class Profile
     {
+        public int MyProperty { get; set; }
+        public string Title { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateOnly DateOfBirth { get; set; }
+        public string Email { get; set; }
+        public string TimeZone { get; set; }
     }
 }

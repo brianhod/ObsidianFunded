@@ -15,7 +15,7 @@ const data = [
 const Dashboard: React.FC = () => {
   return (
     <div className="w-full max-w-6xl space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         {[
           { label: 'Account Balance', value: '$108,500.00', change: '+8.5%', icon: 'account_balance_wallet' },
           { label: 'Equity', value: '$108,422.12', change: '+8.42%', icon: 'monitoring' },
