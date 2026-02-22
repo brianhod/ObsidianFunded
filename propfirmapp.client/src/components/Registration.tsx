@@ -196,7 +196,7 @@ const Registration: React.FC = () => {
                 </main>
 
                 <footer className="py-6 text-center text-xs text-white/20 uppercase">
-                    © 2024 Obsidian Funded Management Group
+                    © {new Date().getFullYear()} Obsidian Funded Management Group
                 </footer>
             </div>
         </div>

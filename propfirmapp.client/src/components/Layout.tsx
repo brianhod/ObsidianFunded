@@ -70,13 +70,12 @@ const Layout: React.FC = () => {
             {/* Mobile drawer */}
             <aside
                 className={`fixed top-0 left-0 z-50 h-full w-[82%] max-w-[320px] md:hidden
-        bg-black/90 backdrop-blur border-r border-white/10
-        transition-transform duration-200 ease-out
+                            bg-black/90 backdrop-blur border-r border-white/10
+                            transition-transform duration-200 ease-out
         ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
                 role="dialog"
                 aria-modal="true"
-                aria-label="Mobile navigation"
-            >
+                aria-label="Mobile navigation">
                 <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
                     <div className="flex items-center gap-3">
                         <div className="w-9 h-9 flex items-center justify-center bg-black border border-primary/40 rounded-lg shadow-[0_0_15px_rgba(6,228,249,0.2)]">
@@ -85,8 +84,7 @@ const Layout: React.FC = () => {
                                     clipRule="evenodd"
                                     d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z"
                                     fill="currentColor"
-                                    fillRule="evenodd"
-                                />
+                                    fillRule="evenodd"/>
                             </svg>
                         </div>
                         <div className="text-white font-extrabold tracking-tight uppercase font-display">
@@ -97,8 +95,7 @@ const Layout: React.FC = () => {
                     <button
                         onClick={() => setMobileOpen(false)}
                         className="w-10 h-10 rounded-lg border border-white/10 hover:bg-white/5 transition flex items-center justify-center"
-                        aria-label="Close"
-                    >
+                        aria-label="Close">
                         <span className="material-symbols-outlined text-white/80">close</span>
                     </button>
                 </div>
@@ -111,8 +108,7 @@ const Layout: React.FC = () => {
                                 key={item.path}
                                 to={item.path}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition
-                  ${active ? 'bg-primary/15 text-primary border border-primary/20' : 'text-white/80 hover:bg-white/5'}`}
-                            >
+                                 ${active ? 'bg-primary/15 text-primary border border-primary/20' : 'text-white/80 hover:bg-white/5'}`}>
                                 <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
                                 <span className="text-sm font-semibold tracking-wide">{item.label}</span>
                             </Link>
@@ -123,8 +119,7 @@ const Layout: React.FC = () => {
                 <div className="mt-auto px-4 pb-6">
                     <Link
                         to="/support"
-                        className="block text-center text-xs uppercase tracking-widest text-white/70 border border-white/10 px-3 py-2.5 rounded hover:bg-white/5 transition"
-                    >
+                        className="block text-center text-xs uppercase tracking-widest text-white/70 border border-white/10 px-3 py-2.5 rounded hover:bg-white/5 transition">
                         Support
                     </Link>
                 </div>
@@ -136,8 +131,7 @@ const Layout: React.FC = () => {
                     <button
                         onClick={() => setMobileOpen(true)}
                         className="md:hidden w-10 h-10 rounded-lg border border-white/10 hover:bg-white/5 transition flex items-center justify-center"
-                        aria-label="Open menu"
-                    >
+                        aria-label="Open menu">
                         <span className="material-symbols-outlined text-white/80">menu</span>
                     </button>
 
@@ -147,8 +141,7 @@ const Layout: React.FC = () => {
                                 clipRule="evenodd"
                                 d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z"
                                 fill="currentColor"
-                                fillRule="evenodd"
-                            />
+                                fillRule="evenodd"/>
                         </svg>
                     </div>
                     <h2 className="text-white text-xl font-extrabold tracking-tighter uppercase font-display">
@@ -163,8 +156,7 @@ const Layout: React.FC = () => {
                             key={item.path}
                             to={item.path}
                             className={`text-xs uppercase tracking-[0.2em] font-bold transition-all flex items-center gap-2 ${isActive(item.path) ? 'text-primary' : 'text-white/40 hover:text-white/80'
-                                }`}
-                        >
+                                }`}>
                             <span className="material-symbols-outlined text-[18px]">{item.icon}</span>
                             {item.label}
                         </Link>
@@ -172,8 +164,6 @@ const Layout: React.FC = () => {
                 </nav>
 
                 <div className="flex items-center gap-4">
-            
-
                     <div className="w-8 h-8 rounded bg-primary/20 border border-primary/30 flex items-center justify-center text-primary font-bold text-xs">
                         JD
                     </div>
@@ -184,7 +174,7 @@ const Layout: React.FC = () => {
                 <Outlet />
             </main>
             <footer className="relative z-10 py-10 px-10 text-center text-[10px] text-white/20 uppercase tracking-[0.4em] font-display">
-                © 2024 Obsidian Funded Management Group. All Rights Reserved. Proprietary Performance Analytics.
+                © {new Date().getFullYear()} Obsidian Funded Management Group. All Rights Reserved. Proprietary Performance Analytics.
             </footer>
         </div>
     );

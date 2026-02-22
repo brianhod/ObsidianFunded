@@ -55,7 +55,7 @@ const RegistrationSuccessfulPage: React.FC<RegistrationSuccessfulPageProps> = ({
     description =
     "Your account has been created. Please check your email to verify your address and start your challenge.",
     footerNote = "Verification link expires in 24 hours",
-    footerText = "© 2024 Obsidian Funded Management Group. Secure Terminal.",
+    footerText = "© " + new Date().getFullYear() +" Obsidian Funded Management Group. Secure Terminal.",
 }) => {
     return (
         <div className="min-h-screen w-full bg-black text-white overflow-x-hidden">

@@ -150,7 +150,7 @@ const Login: React.FC = () => {
                 {/* Footer */}
                 <footer className="px-6 py-8 text-center">
                     <p className="text-slate-600 text-xs font-medium uppercase tracking-widest">
-                        © 2024 Obsidian Funded Group. All Rights Reserved.
+                        © {new Date().getFullYear()} Obsidian Funded Group. All Rights Reserved.
                     </p>
                 </footer>
             </div>

@@ -104,7 +104,7 @@ const RiskManagementTool: React.FC = () => {
 
             {/* Footer */}
             <footer className="border-t border-white/5 px-6 py-10 text-center text-white/40 text-sm">
-                © 2024 OBSIDIAN FUNDED. All rights reserved.
+                ©  {new Date().getFullYear()} OBSIDIAN FUNDED. All rights reserved.
             </footer>
         </div>
     );
