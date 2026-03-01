@@ -7,8 +7,8 @@
   <Folder Name="/Solution Items/">
     <File Path="Readme.txt" />
   </Folder>
-  <Project Path="ClassLibrary1/PropfirmApp.Domain.csproj" Id="a9b51a67-25a3-41ee-af92-d7cf02261d8d" />
-  <Project Path="PropFirm.DAL/PropFirm.Infrastructure.csproj" Id="ee5a17e5-823b-4e87-85fa-e55c4011fff8" />
+  <Project Path="PropfirmApp.Domain/PropfirmApp.Domain.csproj" Id="a9b51a67-25a3-41ee-af92-d7cf02261d8d" />
+  <Project Path="PropFirm.Infrastructure/PropFirm.Infrastructure.csproj" Id="ee5a17e5-823b-4e87-85fa-e55c4011fff8" />
   <Project Path="PropFirm.Dto/PropFirm.Dto.csproj" Id="a8e35584-c973-4945-a511-7236fd60a29a" />
   <Project Path="PropFirm.MT5/PropFirm.MT5.csproj" Id="05339ec2-9e07-4c7a-af60-6b7dfdccecbc" />
   <Project Path="PropFirm.RulesEngine/PropFirm.RulesEngine.csproj" Id="d058d50b-7f22-495f-8891-5559eb15a888" />

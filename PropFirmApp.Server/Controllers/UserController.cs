@@ -8,22 +8,10 @@ namespace PropFirmApp.Server.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        [HttpGet]
+        [HttpPost("Getusers")]
         public IEnumerable<UserDto> GetUser()
         {
             return new List<UserDto>();
-        }
-
-        [HttpPost("login")]
-        public ActionResult<LogonDto> Logon()
-        {
-            return new LogonDto();
-        }
-
-        [HttpPost("register")]
-        public ActionResult<UserDto> Register()
-        {
-            return new UserDto();
         }
     }
 }
