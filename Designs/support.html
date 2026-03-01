@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trader Support Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "obsidian-dark": "#05070a",
+                        "obsidian-card": "rgba(18, 24, 38, 0.6)",
+                        "obsidian-border": "rgba(255, 255, 255, 0.08)",
+                        "neon-cyan": "#00f0ff",
+                        "neon-purple": "#bc13fe",
+                        "neon-green": "#0aff60",
+                        "danger": "#ff0a46",
+                        "text-dim": "#94a3b8",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    boxShadow: {
+                        'neon-glow': '0 0 10px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)',
+                        'purple-glow': '0 0 10px rgba(188, 19, 254, 0.3), 0 0 20px rgba(188, 19, 254, 0.1)',
+                        'green-glow': '0 0 10px rgba(10, 255, 96, 0.3), 0 0 20px rgba(10, 255, 96, 0.1)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 20s infinite linear',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%': { transform: 'translateY(0) translateX(0) scale(1)', opacity: '0' },
+                            '10%': { opacity: '1' },
+                            '90%': { opacity: '1' },
+                            '100%': { transform: 'translateY(-100vh) translateX(50px) scale(0)', opacity: '0' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(5, 7, 10, 0.5); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 240, 255, 0.3); 
+        }
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #05070a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 240, 255, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(188, 19, 254, 0.05) 0px, transparent 50%);
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            animation: float 20s infinite linear;
+        }
+        .particle.cyan {
+            background: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 4px rgba(0, 240, 255, 0.4);
+        }
+        .glass-panel {
+            background: rgba(18, 24, 38, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        .glass-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .glass-input:focus {
+            border-color: #00f0ff;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+            outline: none;
+        }
+        .text-neon-cyan {
+            color: #00f0ff;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-obsidian-dark text-white font-display overflow-hidden selection:bg-neon-cyan selection:text-black">
+<div class="particles-container">
+<div class="particle" style="top: 110%; left: 10%; width: 2px; height: 2px; animation-duration: 15s; animation-delay: 0s;"></div>
+<div class="particle cyan" style="top: 110%; left: 20%; width: 3px; height: 3px; animation-duration: 25s; animation-delay: 2s;"></div>
+<div class="particle" style="top: 110%; left: 35%; width: 1px; height: 1px; animation-duration: 18s; animation-delay: 5s;"></div>
+<div class="particle cyan" style="top: 110%; left: 50%; width: 2px; height: 2px; animation-duration: 22s; animation-delay: 1s;"></div>
+<div class="particle" style="top: 110%; left: 70%; width: 2px; height: 2px; animation-duration: 16s; animation-delay: 3s;"></div>
+<div class="particle cyan" style="top: 110%; left: 85%; width: 3px; height: 3px; animation-duration: 20s; animation-delay: 6s;"></div>
+<div class="particle" style="top: 110%; left: 95%; width: 1px; height: 1px; animation-duration: 19s; animation-delay: 4s;"></div>
+<div class="particle" style="top: 40%; left: 15%; width: 2px; height: 2px; animation-duration: 25s; animation-delay: -10s;"></div>
+<div class="particle cyan" style="top: 60%; left: 75%; width: 2px; height: 2px; animation-duration: 20s; animation-delay: -5s;"></div>
+</div>
+<div class="flex h-screen w-full relative z-10">
+<aside class="flex w-64 flex-col glass-panel border-r-0 h-full">
+<div class="flex items-center gap-3 px-6 py-6 border-b border-obsidian-border h-[80px]">
+<div class="size-8 text-neon-cyan drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clipPath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clipPath>
+</defs>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-white font-display">OBSIDIAN</h2>
+</div>
+<div class="flex flex-col gap-2 p-4 mt-4">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dim hover:text-white hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<p class="text-sm font-medium">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dim hover:text-white hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
+<p class="text-sm font-medium">Accounts</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dim hover:text-white hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">pie_chart</span>
+<p class="text-sm font-medium">Analytics</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dim hover:text-white hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+<p class="text-sm font-medium">Withdrawals</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-neon-cyan/10 border border-neon-cyan/20 text-neon-cyan shadow-neon-glow" href="#">
+<span class="material-symbols-outlined text-[20px]">support_agent</span>
+<p class="text-sm font-bold">Support</p>
+</a>
+</div>
+<div class="mt-auto p-4 border-t border-obsidian-border bg-black/20">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="size-10 rounded-full bg-gradient-to-br from-gray-800 to-black border border-obsidian-border flex items-center justify-center text-xs font-bold text-neon-cyan shadow-sm group-hover:shadow-neon-glow transition-all">JD</div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-sm font-bold truncate text-white group-hover:text-neon-cyan transition-colors">John Doe</p>
+<p class="text-xs text-text-dim truncate">Pro Trader</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex flex-1 flex-col h-full overflow-hidden relative">
+<header class="h-[80px] flex items-center justify-between px-8 border-b border-obsidian-border glass-panel shrink-0 z-20">
+<div class="flex items-center gap-3">
+<h1 class="text-2xl font-bold hidden md:block text-white tracking-wide">Trader Support Center</h1>
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-neon-green/10 text-neon-green border border-neon-green/30 shadow-green-glow">System Operational</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col items-end">
+<span class="text-xs text-text-dim font-medium uppercase tracking-wider">Status</span>
+<span class="text-sm font-bold text-neon-cyan tracking-tight leading-none drop-shadow-[0_0_8px_rgba(0,240,255,0.5)]">Priority Access</span>
+</div>
+<button class="size-10 rounded-full bg-white/5 border border-obsidian-border flex items-center justify-center hover:bg-neon-cyan/10 hover:border-neon-cyan/50 hover:text-neon-cyan transition-all duration-300">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-8 scroll-smooth relative z-10">
+<div class="max-w-[1200px] mx-auto flex flex-col gap-8">
+<div class="glass-panel rounded-2xl p-10 relative overflow-hidden flex flex-col items-center justify-center border-neon-cyan/20">
+<div class="absolute inset-0 bg-gradient-to-b from-neon-cyan/5 to-transparent pointer-events-none"></div>
+<h2 class="text-3xl font-bold text-white mb-2 relative z-10">How can we help you today?</h2>
+<p class="text-text-dim mb-8 relative z-10">Search our knowledge base for answers to common questions</p>
+<div class="relative w-full max-w-2xl z-10 group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-text-dim group-focus-within:text-neon-cyan transition-colors">search</span>
+</div>
+<input class="w-full glass-input pl-12 pr-4 py-4 rounded-xl text-lg placeholder-gray-500 focus:ring-0" placeholder="Search for 'drawdown', 'payouts', 'rules'..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-2 flex items-center">
+<kbd class="hidden sm:inline-block px-2 py-1 text-xs font-semibold text-gray-500 bg-white/5 border border-white/10 rounded">CMD+K</kbd>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="glass-panel rounded-2xl p-8 relative overflow-hidden group hover:border-neon-cyan/50 transition-all duration-500 flex flex-col justify-between items-center text-center lg:col-span-1">
+<div class="absolute inset-0 bg-gradient-to-br from-neon-cyan/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="relative mb-6 mt-4">
+<div class="absolute inset-0 rounded-full bg-neon-cyan/20 blur-xl animate-pulse-slow"></div>
+<div class="relative size-20 rounded-full bg-black/40 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan shadow-[0_0_15px_rgba(0,240,255,0.3)] group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-4xl">support_agent</span>
+</div>
+<div class="absolute top-0 right-0 size-4 bg-neon-green rounded-full border-2 border-black shadow-green-glow animate-pulse"></div>
+</div>
+<div class="relative z-10 mb-8">
+<h3 class="text-2xl font-bold text-white mb-2">Live Support</h3>
+<p class="text-text-dim text-sm">Connect with our support team instantly. Available 24/7 for urgent inquiries.</p>
+</div>
+<button class="relative z-10 w-full py-3 rounded-xl bg-neon-cyan text-black font-bold text-sm tracking-wide hover:bg-white transition-colors shadow-[0_0_20px_rgba(0,240,255,0.4)] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+                                Start Chat
+                            </button>
+</div>
+<div class="glass-panel rounded-2xl p-8 lg:col-span-2 relative">
+<div class="flex items-center gap-3 mb-6 border-b border-obsidian-border pb-4">
+<span class="material-symbols-outlined text-neon-purple">mail</span>
+<h3 class="text-xl font-bold text-white">Submit a Ticket</h3>
+</div>
+<form class="flex flex-col gap-5">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-text-dim uppercase tracking-wider">Subject</label>
+<select class="glass-input w-full rounded-lg px-4 py-2.5 text-sm focus:ring-0">
+<option class="bg-obsidian-dark text-white">General Inquiry</option>
+<option class="bg-obsidian-dark text-white">Technical Issue</option>
+<option class="bg-obsidian-dark text-white">Billing Support</option>
+<option class="bg-obsidian-dark text-white">Trading Violation</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-text-dim uppercase tracking-wider">Account ID</label>
+<input class="glass-input w-full rounded-lg px-4 py-2.5 text-sm focus:ring-0 opacity-70 cursor-not-allowed" readonly="" type="text" value="#8829102"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-xs font-bold text-text-dim uppercase tracking-wider">Message</label>
+<textarea class="glass-input w-full rounded-lg px-4 py-3 text-sm focus:ring-0 resize-none" placeholder="Describe your issue in detail..." rows="5"></textarea>
+</div>
+<div class="flex justify-between items-center mt-2">
+<div class="flex items-center gap-2 text-text-dim text-xs">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                                        Typically replies in &lt; 2 hours
+                                    </div>
+<button class="px-8 py-2.5 rounded-lg bg-white/5 border border-neon-purple/50 text-neon-purple font-bold text-sm hover:bg-neon-purple hover:text-white hover:border-neon-purple transition-all duration-300 shadow-purple-glow flex items-center gap-2" type="button">
+                                        Send Request
+                                        <span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+<div class="flex flex-col gap-6 pb-8">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold text-white">Common Questions</h3>
+<a class="text-sm text-neon-cyan hover:text-white transition-colors flex items-center gap-1" href="#">
+                                View Full Knowledge Base
+                                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+<div class="flex flex-col gap-4">
+<details class="group glass-panel rounded-xl overflow-hidden border border-white/5 open:border-neon-cyan/30 transition-all duration-300">
+<summary class="flex cursor-pointer items-center justify-between p-5 text-white hover:bg-white/5 transition-colors">
+<span class="font-bold flex items-center gap-3">
+<span class="material-symbols-outlined text-neon-cyan">trending_down</span>
+                                        How is daily drawdown calculated?
+                                    </span>
+<span class="transition group-open:rotate-180">
+<span class="material-symbols-outlined text-text-dim">expand_more</span>
+</span>
+</summary>
+<div class="px-5 pb-5 pt-0 text-text-dim text-sm leading-relaxed border-t border-white/5 mt-2 pt-4">
+<p>Daily drawdown is calculated based on the <strong>higher value</strong> between your balance and equity at the start of the trading day (5:00 PM EST). The limit is strictly 5% of your initial account balance. If your equity falls below this threshold at any point during the day, the account will be breached.</p>
+</div>
+</details>
+<details class="group glass-panel rounded-xl overflow-hidden border border-white/5 open:border-neon-cyan/30 transition-all duration-300">
+<summary class="flex cursor-pointer items-center justify-between p-5 text-white hover:bg-white/5 transition-colors">
+<span class="font-bold flex items-center gap-3">
+<span class="material-symbols-outlined text-neon-cyan">payments</span>
+                                        When can I request my first payout?
+                                    </span>
+<span class="transition group-open:rotate-180">
+<span class="material-symbols-outlined text-text-dim">expand_more</span>
+</span>
+</summary>
+<div class="px-5 pb-5 pt-0 text-text-dim text-sm leading-relaxed border-t border-white/5 mt-2 pt-4">
+<p>You become eligible for your first payout <strong>14 days</strong> after placing your first trade on the funded account. Subsequent payouts can be requested on a bi-weekly basis. Ensure all trades are closed before submitting a request via the 'Withdrawals' tab.</p>
+</div>
+</details>
+<details class="group glass-panel rounded-xl overflow-hidden border border-white/5 open:border-neon-cyan/30 transition-all duration-300">
+<summary class="flex cursor-pointer items-center justify-between p-5 text-white hover:bg-white/5 transition-colors">
+<span class="font-bold flex items-center gap-3">
+<span class="material-symbols-outlined text-neon-cyan">gavel</span>
+                                        Are expert advisors (EAs) allowed?
+                                    </span>
+<span class="transition group-open:rotate-180">
+<span class="material-symbols-outlined text-text-dim">expand_more</span>
+</span>
+</summary>
+<div class="px-5 pb-5 pt-0 text-text-dim text-sm leading-relaxed border-t border-white/5 mt-2 pt-4">
+<p>Yes, EAs are allowed provided they do not use prohibited strategies such as tick scalping, latency arbitrage, or reverse arbitrage. High-frequency trading bots that exploit demo server feeds are strictly prohibited and will result in account termination.</p>
+</div>
+</details>
+</div>
+</div>
+<div class="flex items-center justify-between py-6 border-t border-obsidian-border mt-auto">
+<p class="text-xs text-text-dim">Obsidian Funded © 2024. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-xs text-text-dim hover:text-neon-cyan transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs text-text-dim hover:text-neon-cyan transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

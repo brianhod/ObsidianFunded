@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register | Obsidian Funded</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#06e4f9",
+              "background-light": "#f5f8f8",
+              "background-dark": "#0f2123",
+            },
+            fontFamily: {
+              "display": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>body {
+    font-family: "Manrope", sans-serif;
+    background-color: #000
+    }
+/* Particles Background Simulation */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, #0a1b1d 0%, #000 100%)
+    }
+.particle {
+    position: absolute;
+    background: #06e4f9;
+    border-radius: 50%;
+    opacity: 0.3;
+    filter: blur(1px)
+    }
+/* Glassmorphism Effect */
+.liquid-glass {
+    background: rgba(15, 33, 35, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(6, 228, 249, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8)
+    }
+.primary-glow {
+    box-shadow: 0 0 15px rgba(6, 228, 249, 0.4);
+    transition: all 0.3s ease
+    }
+.primary-glow:hover {
+    box-shadow: 0 0 25px rgba(6, 228, 249, 0.6);
+    transform: translatey(-1px)
+    }
+/* Custom scrollbar for dropdown */
+select {
+    appearance: none;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBsjgApIo2LCMoH_xqwpvol9JCLIRlRdv26UhEtcNj1XvkygNfCS8PKtneS734u-IN9ZJw0etTz68ljNOSMLSG9dykNSRLqtDMLHyO7js0DE6NOsrWV6Egsexp6Fl4UbYPuS7eFL7qokJ57Gy89tMvj60jtI55znEsc6gMSrCb8jECkAwBFBCVaLnqTS5Xjl8hBNg4YeLPCIbnOIhlPuKTgOzARrn52bmLaD6hQiTGmU9ohoa-1GA5vwi7rb8aZpikY1-H2-Vhqy0Nd);
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em
+    }</style>
+</head>
+<body class="bg-background-dark text-white min-h-screen font-display flex flex-col overflow-x-hidden">
+<!-- Particle Background Elements (CSS-based static representation) -->
+<div class="particles-container">
+<div class="particle w-1 h-1 top-1/4 left-1/4"></div>
+<div class="particle w-2 h-2 top-1/3 left-2/3 opacity-20"></div>
+<div class="particle w-1 h-1 top-3/4 left-1/2"></div>
+<div class="particle w-0.5 h-0.5 top-1/2 left-10 opacity-40"></div>
+<div class="particle w-1.5 h-1.5 top-20 right-20 opacity-10"></div>
+<div class="particle w-1 h-1 bottom-10 right-1/4"></div>
+</div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<!-- Top Nav / Header -->
+<header class="flex items-center justify-between px-6 py-6 lg:px-20">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 flex items-center justify-center bg-black border border-primary/40 rounded-lg">
+<svg class="text-primary w-6 h-6" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-extrabold tracking-tighter">OBSIDIAN FUNDED</h2>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<span class="text-xs text-primary/60 font-medium uppercase tracking-widest">Master Class Protocol v2.4</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center justify-center px-4 py-12">
+<div class="w-full max-w-[520px] liquid-glass rounded-xl p-8 md:p-10">
+<!-- Branding & Title -->
+<div class="text-center mb-8">
+<h1 class="text-white text-3xl font-bold tracking-tight mb-2">Join the Master Class</h1>
+<p class="text-primary/70 text-sm font-medium">Create your proprietary trading account</p>
+</div>
+<!-- Registration Form -->
+<form class="space-y-5">
+<!-- Full Name -->
+<div class="flex flex-col gap-2">
+<label class="text-white/80 text-sm font-semibold tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">person</span>
+                            Full Name
+                        </label>
+<input class="w-full bg-black/40 border border-white/10 rounded-lg h-14 px-4 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="e.g., John Doe" type="text"/>
+</div>
+<!-- Email Address -->
+<div class="flex flex-col gap-2">
+<label class="text-white/80 text-sm font-semibold tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">mail</span>
+                            Email Address
+                        </label>
+<input class="w-full bg-black/40 border border-white/10 rounded-lg h-14 px-4 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="name@obsidian.com" type="email"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Country -->
+<div class="flex flex-col gap-2">
+<label class="text-white/80 text-sm font-semibold tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">public</span>
+                                Country
+                            </label>
+<select class="w-full bg-black/40 border border-white/10 rounded-lg h-14 px-4 text-white focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all">
+<option class="bg-background-dark" disabled="" selected="" value="">Select Country</option>
+<option class="bg-background-dark" value="us">United States</option>
+<option class="bg-background-dark" value="uk">United Kingdom</option>
+<option class="bg-background-dark" value="ca">Canada</option>
+<option class="bg-background-dark" value="de">Germany</option>
+</select>
+</div>
+<!-- Password -->
+<div class="flex flex-col gap-2">
+<label class="text-white/80 text-sm font-semibold tracking-wide flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">lock</span>
+                                Password
+                            </label>
+<div class="relative">
+<input class="w-full bg-black/40 border border-white/10 rounded-lg h-14 px-4 pr-12 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Terms Checkbox -->
+<div class="flex items-start gap-3 py-2">
+<div class="flex items-center h-5">
+<input class="w-4 h-4 bg-black/40 border border-white/20 rounded text-primary focus:ring-primary focus:ring-offset-0 focus:ring-offset-transparent cursor-pointer" id="terms" type="checkbox"/>
+</div>
+<label class="text-xs text-white/60 leading-tight cursor-pointer" for="terms">
+                            I agree to the <a class="text-primary hover:underline" href="#">Terms and Conditions</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a> of Obsidian Funded.
+                        </label>
+</div>
+<!-- Create Account Button -->
+<button class="w-full h-14 bg-primary text-black font-extrabold uppercase tracking-widest rounded-lg primary-glow flex items-center justify-center gap-2 mt-4" type="submit">
+                        Create Account
+                        <span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+</form>
+<!-- Login Footer -->
+<div class="mt-8 pt-6 border-t border-white/10 text-center">
+<p class="text-white/40 text-sm">
+                        Already have an account? 
+                        <a class="text-primary font-bold hover:underline ml-1" href="#">Login</a>
+</p>
+</div>
+</div>
+<!-- Stats/Trust Indicators -->
+<div class="mt-12 flex flex-wrap justify-center gap-8 md:gap-16 opacity-50">
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold text-primary/80 uppercase tracking-widest">Payouts</span>
+<span class="text-lg font-light">$42M+</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold text-primary/80 uppercase tracking-widest">Traders</span>
+<span class="text-lg font-light">125K</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold text-primary/80 uppercase tracking-widest">Uptime</span>
+<span class="text-lg font-light">99.9%</span>
+</div>
+</div>
+</main>
+<!-- Footer Decorative -->
+<footer class="py-6 px-10 text-center text-[10px] text-white/20 uppercase tracking-[0.3em]">
+            © 2024 Obsidian Funded Management Group. Secure Terminal.
+        </footer>
+</div>
+</body></html>

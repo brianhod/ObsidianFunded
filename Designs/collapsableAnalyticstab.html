@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advanced Trader Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "obsidian-dark": "#05070a",
+                        "obsidian-card": "rgba(18, 24, 38, 0.6)",
+                        "obsidian-border": "rgba(255, 255, 255, 0.08)",
+                        "neon-cyan": "#00f0ff",
+                        "neon-purple": "#bc13fe",
+                        "neon-green": "#0aff60",
+                        "danger": "#ff0a46",
+                        "text-dim": "#94a3b8",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    boxShadow: {
+                        'neon-glow': '0 0 10px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)',
+                        'purple-glow': '0 0 10px rgba(188, 19, 254, 0.3), 0 0 20px rgba(188, 19, 254, 0.1)',
+                        'green-glow': '0 0 10px rgba(10, 255, 96, 0.3), 0 0 20px rgba(10, 255, 96, 0.1)',
+                        'glass-inset': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(5, 7, 10, 0.5); 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 240, 255, 0.3); 
+        }
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #05070a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(0, 240, 255, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(188, 19, 254, 0.05) 0px, transparent 50%);
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            animation: float 20s infinite linear;
+        }
+        .particle.cyan {
+            background: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 4px rgba(0, 240, 255, 0.4);
+        }
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px) scale(0); opacity: 0; }
+        }
+        .glass-panel {
+            background: rgba(18, 24, 38, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+        }
+        .text-neon-cyan {
+            color: #00f0ff;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+        }#sidebar-toggle:checked ~ .layout-wrapper aside {
+            width: 88px;
+        }
+        #sidebar-toggle:checked ~ .layout-wrapper aside .sidebar-text,
+        #sidebar-toggle:checked ~ .layout-wrapper aside .logo-text,
+        #sidebar-toggle:checked ~ .layout-wrapper aside .profile-info {
+            display: none;
+        }
+        #sidebar-toggle:checked ~ .layout-wrapper aside .nav-item,
+        #sidebar-toggle:checked ~ .layout-wrapper aside .sidebar-header,
+        #sidebar-toggle:checked ~ .layout-wrapper aside .profile-container {
+            justify-content: center;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        #sidebar-toggle:checked ~ .layout-wrapper aside .toggle-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-obsidian-dark text-white font-display overflow-hidden selection:bg-neon-cyan selection:text-black">
+<input class="peer hidden" id="sidebar-toggle" type="checkbox"/>
+<div class="particles-container">
+<div class="particle" style="top: 110%; left: 10%; width: 2px; height: 2px; animation-duration: 15s; animation-delay: 0s;"></div>
+<div class="particle cyan" style="top: 110%; left: 20%; width: 3px; height: 3px; animation-duration: 25s; animation-delay: 2s;"></div>
+<div class="particle" style="top: 110%; left: 35%; width: 1px; height: 1px; animation-duration: 18s; animation-delay: 5s;"></div>
+<div class="particle cyan" style="top: 110%; left: 50%; width: 2px; height: 2px; animation-duration: 22s; animation-delay: 1s;"></div>
+<div class="particle" style="top: 110%; left: 70%; width: 2px; height: 2px; animation-duration: 16s; animation-delay: 3s;"></div>
+<div class="particle cyan" style="top: 110%; left: 85%; width: 3px; height: 3px; animation-duration: 20s; animation-delay: 6s;"></div>
+<div class="particle" style="top: 110%; left: 95%; width: 1px; height: 1px; animation-duration: 19s; animation-delay: 4s;"></div>
+<div class="particle" style="top: 40%; left: 15%; width: 2px; height: 2px; animation-duration: 25s; animation-delay: -10s;"></div>
+<div class="particle cyan" style="top: 60%; left: 75%; width: 2px; height: 2px; animation-duration: 20s; animation-delay: -5s;"></div>
+</div>
+<div class="flex h-screen w-full relative z-10 layout-wrapper">
+<aside class="flex w-64 flex-col glass-panel border-r-0 h-full flex-shrink-0 z-30 transition-[width] duration-300 ease-in-out relative group/sidebar">
+<label class="absolute -right-3 top-7 z-50 bg-obsidian-dark border border-obsidian-border text-neon-cyan rounded-full w-6 h-6 flex items-center justify-center cursor-pointer hover:bg-neon-cyan/10 hover:shadow-neon-glow transition-all duration-300" for="sidebar-toggle">
+<span class="material-symbols-outlined text-[16px] toggle-icon transition-transform duration-300">chevron_left</span>
+</label>
+<div class="flex items-center gap-3 px-6 py-6 border-b border-obsidian-border h-[80px] sidebar-header transition-all duration-300 overflow-hidden whitespace-nowrap">
+<div class="size-8 text-neon-cyan drop-shadow-[0_0_8px_rgba(0,240,255,0.6)] flex-shrink-0">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_535)">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clipPath id="clip0_6_535"><rect fill="white" height="48" width="48"></rect></clipPath>
+</defs>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-white font-display logo-text transition-opacity duration-200">OBSIDIAN</h2>
+</div>
+<div class="flex flex-col gap-2 p-4 mt-4">
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dim hover:text-white hover:bg-white/5 transition-all duration-300 nav-item group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-neon-cyan transition-colors">dashboard</span>
+<p class="text-sm font-medium sidebar-text whitespace-nowrap transition-opacity duration-200">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dim hover:text-white hover:bg-white/5 transition-all duration-300 nav-item group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-neon-cyan transition-colors">account_balance_wallet</span>
+<p class="text-sm font-medium sidebar-text whitespace-nowrap transition-opacity duration-200">Accounts</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-neon-cyan/10 border border-neon-cyan/20 text-neon-cyan shadow-neon-glow nav-item" href="#">
+<span class="material-symbols-outlined text-[20px]">pie_chart</span>
+<p class="text-sm font-bold sidebar-text whitespace-nowrap transition-opacity duration-200">Analytics</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dim hover:text-white hover:bg-white/5 transition-all duration-300 nav-item group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-neon-cyan transition-colors">credit_card</span>
+<p class="text-sm font-medium sidebar-text whitespace-nowrap transition-opacity duration-200">Withdrawals</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg text-text-dim hover:text-white hover:bg-white/5 transition-all duration-300 nav-item group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-neon-cyan transition-colors">help</span>
+<p class="text-sm font-medium sidebar-text whitespace-nowrap transition-opacity duration-200">Support</p>
+</a>
+</div>
+<div class="mt-auto p-4 border-t border-obsidian-border bg-black/20">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group profile-container">
+<div class="size-10 rounded-full bg-gradient-to-br from-gray-800 to-black border border-obsidian-border flex items-center justify-center text-xs font-bold text-neon-cyan shadow-sm group-hover:shadow-neon-glow transition-all flex-shrink-0">JD</div>
+<div class="flex flex-col overflow-hidden profile-info whitespace-nowrap transition-opacity duration-200">
+<p class="text-sm font-bold truncate text-white group-hover:text-neon-cyan transition-colors">John Doe</p>
+<p class="text-xs text-text-dim truncate">Pro Trader</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="flex flex-1 flex-col h-full overflow-hidden relative transition-all duration-300">
+<header class="h-[80px] flex items-center justify-between px-8 border-b border-obsidian-border glass-panel shrink-0 z-20">
+<div class="flex items-center gap-3">
+<h1 class="text-2xl font-bold hidden md:block text-white tracking-wide">Advanced Trader Analytics</h1>
+<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30 shadow-neon-glow">Live Data</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-3 px-4 py-2 rounded-lg bg-black/40 border border-obsidian-border backdrop-blur-sm">
+<span class="text-xs text-text-dim font-medium uppercase tracking-wider">Account</span>
+<span class="text-sm font-bold tracking-widest text-white">#8829102</span>
+<span class="material-symbols-outlined text-[16px] text-text-dim cursor-pointer hover:text-neon-cyan transition-colors">content_copy</span>
+</div>
+<div class="h-8 w-px bg-obsidian-border mx-2"></div>
+<div class="flex flex-col items-end">
+<span class="text-xs text-text-dim font-medium uppercase tracking-wider">Equity</span>
+<span class="text-xl font-bold text-neon-cyan tracking-tight leading-none drop-shadow-[0_0_8px_rgba(0,240,255,0.5)]">$105,820.50</span>
+</div>
+<button class="size-10 rounded-full bg-white/5 border border-obsidian-border flex items-center justify-center hover:bg-neon-cyan/10 hover:border-neon-cyan/50 hover:text-neon-cyan transition-all duration-300">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-8 scroll-smooth relative z-10">
+<div class="max-w-[1600px] mx-auto flex flex-col gap-6">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="glass-panel rounded-2xl p-5 relative overflow-hidden group hover:border-neon-cyan/30 transition-all duration-500">
+<div class="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div>
+<p class="text-text-dim text-xs font-bold uppercase tracking-widest mb-1">Win Rate %</p>
+<h3 class="text-3xl font-bold text-white">68.5<span class="text-lg text-neon-cyan">%</span></h3>
+</div>
+<div class="size-10 rounded-lg bg-neon-cyan/10 flex items-center justify-center text-neon-cyan border border-neon-cyan/20">
+<span class="material-symbols-outlined text-xl">donut_large</span>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-2 relative z-10">
+<div class="relative size-16 shrink-0">
+<svg class="size-full rotate-[-90deg]" viewBox="0 0 36 36">
+<path class="text-white/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-neon-cyan drop-shadow-[0_0_6px_rgba(0,240,255,0.6)]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="68.5, 100" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-white font-medium">89 Trades Won</span>
+<span class="text-xs text-text-dim">41 Trades Lost</span>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl p-5 relative overflow-hidden group hover:border-neon-purple/30 transition-all duration-500">
+<div class="absolute inset-0 bg-gradient-to-br from-neon-purple/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div>
+<p class="text-text-dim text-xs font-bold uppercase tracking-widest mb-1">Profit Factor</p>
+<h3 class="text-3xl font-bold text-white">2.45</h3>
+</div>
+<div class="size-10 rounded-lg bg-neon-purple/10 flex items-center justify-center text-neon-purple border border-neon-purple/20">
+<span class="material-symbols-outlined text-xl">show_chart</span>
+</div>
+</div>
+<div class="mt-4 relative z-10">
+<div class="w-full bg-black/40 rounded-full h-1.5 mb-2 overflow-hidden">
+<div class="bg-neon-purple h-1.5 rounded-full shadow-[0_0_8px_rgba(188,19,254,0.6)]" style="width: 70%"></div>
+</div>
+<p class="text-xs text-neon-purple font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                    Top 5% of traders
+                                </p>
+</div>
+</div>
+<div class="glass-panel rounded-2xl p-5 relative overflow-hidden group hover:border-neon-green/30 transition-all duration-500">
+<div class="absolute inset-0 bg-gradient-to-br from-neon-green/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div>
+<p class="text-text-dim text-xs font-bold uppercase tracking-widest mb-1">Average RRR</p>
+<h3 class="text-3xl font-bold text-white">1 : 2.8</h3>
+</div>
+<div class="size-10 rounded-lg bg-neon-green/10 flex items-center justify-center text-neon-green border border-neon-green/20">
+<span class="material-symbols-outlined text-xl">scale</span>
+</div>
+</div>
+<div class="mt-4 relative z-10 flex gap-1 items-end h-8">
+<div class="w-1/3 bg-white/10 h-1/2 rounded-t-sm"></div>
+<div class="w-1/3 bg-white/10 h-3/4 rounded-t-sm"></div>
+<div class="w-1/3 bg-neon-green h-full rounded-t-sm shadow-[0_0_8px_rgba(10,255,96,0.6)]"></div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl p-5 relative overflow-hidden group hover:border-neon-cyan/30 transition-all duration-500">
+<div class="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div>
+<p class="text-text-dim text-xs font-bold uppercase tracking-widest mb-1">Best Trade</p>
+<h3 class="text-3xl font-bold text-neon-cyan drop-shadow-[0_0_5px_rgba(0,240,255,0.4)]">+$3,240</h3>
+</div>
+<div class="size-10 rounded-lg bg-neon-cyan/10 flex items-center justify-center text-neon-cyan border border-neon-cyan/20">
+<span class="material-symbols-outlined text-xl">emoji_events</span>
+</div>
+</div>
+<div class="mt-4 relative z-10">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-white/5 border border-obsidian-border rounded text-[10px] text-white font-bold">XAUUSD</span>
+<span class="text-xs text-text-dim">May 14, 2024</span>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl p-6 relative overflow-hidden flex flex-col h-[500px]">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-lg font-bold text-white tracking-wide">Equity Growth Curve</h3>
+<p class="text-xs text-text-dim">Cumulative PnL performance over time</p>
+</div>
+<div class="flex items-center bg-black/40 rounded-lg p-1 border border-obsidian-border">
+<button class="px-4 py-1.5 rounded-md text-xs font-medium text-text-dim hover:text-white hover:bg-white/5 transition-colors">1W</button>
+<button class="px-4 py-1.5 rounded-md text-xs font-bold bg-neon-cyan/20 text-neon-cyan shadow-[0_0_8px_rgba(0,240,255,0.2)] border border-neon-cyan/20">1M</button>
+<button class="px-4 py-1.5 rounded-md text-xs font-medium text-text-dim hover:text-white hover:bg-white/5 transition-colors">3M</button>
+<button class="px-4 py-1.5 rounded-md text-xs font-medium text-text-dim hover:text-white hover:bg-white/5 transition-colors">ALL</button>
+</div>
+</div>
+<div class="flex-1 w-full h-full relative">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none z-0">
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+<div class="w-full h-px bg-white/5 border-t border-dashed border-white/10"></div>
+</div>
+<svg class="w-full h-full absolute inset-0 z-10" preserveAspectRatio="none" viewBox="0 0 1000 400">
+<defs>
+<linearGradient id="equity-fill" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#00f0ff" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#00f0ff" stop-opacity="0"></stop>
+</linearGradient>
+<filter height="200%" id="glow-line" width="200%" x="-50%" y="-50%">
+<feGaussianBlur result="coloredBlur" stdDeviation="4"></feGaussianBlur>
+<feMerge>
+<feMergeNode in="coloredBlur"></feMergeNode>
+<feMergeNode in="SourceGraphic"></feMergeNode>
+</feMerge>
+</filter>
+</defs>
+<path d="M0,300 L0,300 C50,290 100,280 150,260 C200,240 250,270 300,240 C350,210 400,200 450,180 C500,160 550,190 600,150 C650,110 700,130 750,100 C800,70 850,90 900,50 C950,10 1000,40 1000,40 L1000,400 L0,400 Z" fill="url(#equity-fill)"></path>
+<path d="M0,300 C50,290 100,280 150,260 C200,240 250,270 300,240 C350,210 400,200 450,180 C500,160 550,190 600,150 C650,110 700,130 750,100 C800,70 850,90 900,50 C950,10 1000,40 1000,40" fill="none" filter="url(#glow-line)" stroke="#00f0ff" stroke-width="3"></path>
+<circle cx="300" cy="240" fill="#05070a" r="4" stroke="#00f0ff" stroke-width="2"></circle>
+<circle cx="600" cy="150" fill="#05070a" r="4" stroke="#00f0ff" stroke-width="2"></circle>
+<circle class="animate-pulse-slow shadow-[0_0_10px_#00f0ff]" cx="900" cy="50" fill="#00f0ff" r="6"></circle>
+</svg>
+<div class="absolute top-[12%] right-[10%] bg-obsidian-dark/90 border border-neon-cyan/30 p-3 rounded-lg backdrop-blur-md shadow-neon-glow transform translate-x-1/2">
+<p class="text-[10px] text-text-dim uppercase font-bold">Current Equity</p>
+<p class="text-lg font-bold text-white">$105,820.50</p>
+<p class="text-xs text-neon-green">+5.8% All time</p>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl overflow-hidden flex flex-col">
+<div class="px-6 py-5 border-b border-obsidian-border bg-black/20 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-neon-cyan">list_alt</span>
+<h3 class="text-base font-bold text-white tracking-wide">Recent Trades</h3>
+</div>
+<button class="text-xs font-bold text-neon-cyan hover:text-white transition-colors uppercase tracking-wider flex items-center gap-1">
+                                View All <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-xs text-text-dim font-bold uppercase tracking-wider border-b border-obsidian-border bg-white/5">
+<th class="px-6 py-4">Pair</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4">Type</th>
+<th class="px-6 py-4">Lots</th>
+<th class="px-6 py-4">Entry</th>
+<th class="px-6 py-4">Exit</th>
+<th class="px-6 py-4 text-right">PnL</th>
+</tr>
+</thead>
+<tbody class="text-sm font-medium">
+<tr class="border-b border-obsidian-border hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-md bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 flex items-center justify-center font-bold text-xs">AU</div>
+<span class="text-white group-hover:text-neon-cyan transition-colors">XAUUSD</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-dim">May 14, 10:30</td>
+<td class="px-6 py-4"><span class="text-neon-green bg-neon-green/10 px-2 py-0.5 rounded text-xs font-bold border border-neon-green/20">LONG</span></td>
+<td class="px-6 py-4 text-white">2.50</td>
+<td class="px-6 py-4 text-text-dim">2340.50</td>
+<td class="px-6 py-4 text-text-dim">2355.20</td>
+<td class="px-6 py-4 text-right font-bold text-neon-green drop-shadow-[0_0_5px_rgba(10,255,96,0.3)]">+$3,240.50</td>
+</tr>
+<tr class="border-b border-obsidian-border hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-md bg-blue-500/10 border border-blue-500/20 text-blue-500 flex items-center justify-center font-bold text-xs">EU</div>
+<span class="text-white group-hover:text-neon-cyan transition-colors">EURUSD</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-dim">May 13, 15:45</td>
+<td class="px-6 py-4"><span class="text-danger bg-danger/10 px-2 py-0.5 rounded text-xs font-bold border border-danger/20">SHORT</span></td>
+<td class="px-6 py-4 text-white">5.00</td>
+<td class="px-6 py-4 text-text-dim">1.0850</td>
+<td class="px-6 py-4 text-text-dim">1.0865</td>
+<td class="px-6 py-4 text-right font-bold text-danger drop-shadow-[0_0_5px_rgba(255,10,70,0.3)]">-$750.00</td>
+</tr>
+<tr class="border-b border-obsidian-border hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-500 flex items-center justify-center font-bold text-xs">GJ</div>
+<span class="text-white group-hover:text-neon-cyan transition-colors">GBPJPY</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-dim">May 12, 09:15</td>
+<td class="px-6 py-4"><span class="text-neon-green bg-neon-green/10 px-2 py-0.5 rounded text-xs font-bold border border-neon-green/20">LONG</span></td>
+<td class="px-6 py-4 text-white">3.00</td>
+<td class="px-6 py-4 text-text-dim">192.40</td>
+<td class="px-6 py-4 text-text-dim">193.10</td>
+<td class="px-6 py-4 text-right font-bold text-neon-green drop-shadow-[0_0_5px_rgba(10,255,96,0.3)]">+$1,850.20</td>
+</tr>
+<tr class="border-b border-obsidian-border hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-md bg-orange-500/10 border border-orange-500/20 text-orange-500 flex items-center justify-center font-bold text-xs">BTC</div>
+<span class="text-white group-hover:text-neon-cyan transition-colors">BTCUSD</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-dim">May 11, 22:00</td>
+<td class="px-6 py-4"><span class="text-danger bg-danger/10 px-2 py-0.5 rounded text-xs font-bold border border-danger/20">SHORT</span></td>
+<td class="px-6 py-4 text-white">1.00</td>
+<td class="px-6 py-4 text-text-dim">62,400</td>
+<td class="px-6 py-4 text-text-dim">62,800</td>
+<td class="px-6 py-4 text-right font-bold text-danger drop-shadow-[0_0_5px_rgba(255,10,70,0.3)]">-$400.00</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-md bg-zinc-500/10 border border-zinc-500/20 text-zinc-400 flex items-center justify-center font-bold text-xs">US</div>
+<span class="text-white group-hover:text-neon-cyan transition-colors">US30</span>
+</div>
+</td>
+<td class="px-6 py-4 text-text-dim">May 10, 14:30</td>
+<td class="px-6 py-4"><span class="text-neon-green bg-neon-green/10 px-2 py-0.5 rounded text-xs font-bold border border-neon-green/20">LONG</span></td>
+<td class="px-6 py-4 text-white">10.0</td>
+<td class="px-6 py-4 text-text-dim">38,900</td>
+<td class="px-6 py-4 text-text-dim">39,150</td>
+<td class="px-6 py-4 text-right font-bold text-neon-green drop-shadow-[0_0_5px_rgba(10,255,96,0.3)]">+$2,500.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between py-6 border-t border-obsidian-border mt-8">
+<p class="text-xs text-text-dim">Obsidian Funded © 2024. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-xs text-text-dim hover:text-neon-cyan transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs text-text-dim hover:text-neon-cyan transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
