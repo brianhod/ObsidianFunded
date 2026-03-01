@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Refined Obsidian Trading Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#FF2D55",
+                        "neon-purple": "#BF5AF2",
+                        "neon-pink": "#FF2D55",
+                        "neon-cyan": "#00E5FF",
+                        "background-deep": "#020202",
+                        "obsidian": "#08080a"
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "-apple-system", "BlinkMacSystemFont", "SF Pro Display", "Segoe UI", "Roboto", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "glass": "1.25rem",
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-blur: 40px;
+        }
+        body {
+            background-color: #020202;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        .particle-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at center, #08080a 0%, #000000 100%);
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(4px);
+            opacity: 0.5;
+            will-change: transform;
+        }
+        .liquid-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+            -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+            border: 1px solid var(--glass-border);
+        }
+        .liquid-glass::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.02) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        #cursor-trail-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+        .trail-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            filter: blur(4px);
+            transform: translate(-50%, -50%);
+            backdrop-filter: blur(4px) brightness(0.6);
+            -webkit-backdrop-filter: blur(4px) brightness(0.6);
+            box-shadow: 0 0 8px rgba(0,0,0,0.4);
+            transition: opacity 1.2s cubic-bezier(0.23, 1, 0.32, 1), transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .lens-cursor {
+            position: fixed;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            border: 0.5px solid rgba(255,255,255,0.15);
+            background: radial-gradient(circle at center, rgba(0,0,0,0.15), rgba(0,0,0,0.3) 100%);
+            backdrop-filter: blur(8px) brightness(0.8);
+            -webkit-backdrop-filter: blur(8px) brightness(0.8);
+            box-shadow: 
+                inset 0 0 8px rgba(255,255,255,0.05),
+                0 0 20px rgba(0,0,0,0.5);
+        }
+        @media (max-width: 430px) {
+            .hero-title {
+                font-size: 3.5rem;
+                line-height: 1;
+            }
+            .lens-cursor {
+                display: none;
+            }
+        }
+        .cyan-glow-button {
+            background: rgba(8, 8, 10, 0.8);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+        }
+        .white-glass-button {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-sans selection:bg-neon-cyan/30">
+<div id="cursor-trail-container"></div>
+<div class="lens-cursor" id="main-lens"></div>
+<div class="particle-container" id="particle-field"></div>
+<nav class="fixed top-0 left-0 right-0 z-[60] p-4">
+<div class="liquid-glass rounded-full px-5 py-2.5 flex items-center justify-between max-w-[90%] mx-auto border-white/10">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-neon-cyan shadow-[0_0_10px_#00E5FF]"></div>
+<span class="font-black text-[10px] tracking-[0.2em] uppercase text-white">OBSIDIAN</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-[20px] font-light text-white">menu</span>
+</div>
+</div>
+</nav>
+<main class="relative z-10">
+<section class="min-h-screen flex flex-col justify-center px-6 pt-20">
+<div class="space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full liquid-glass text-[10px] font-bold uppercase tracking-[0.2em] text-white/80">
+<span class="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse"></span>
+                    Institutional Mode Active
+                </div>
+<h1 class="hero-title text-[4rem] font-black tracking-tighter leading-[0.85] text-white">
+                    Obsidian<br/>
+<span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-white/80 to-white/60">Trading.</span>
+</h1>
+<p class="text-white/60 text-base font-light leading-relaxed max-w-[300px]">
+                    Elite-grade liquidity and execution for high-net-worth accounts. Access proprietary obsidian pools.
+                </p>
+<div class="flex flex-col gap-3 pt-8">
+<button class="cyan-glow-button py-5 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 text-white transition-all active:scale-95">
+                        Open Account
+                        <span class="material-symbols-outlined text-neon-cyan">arrow_forward</span>
+</button>
+<button class="py-5 rounded-2xl font-medium text-white/40 hover:text-white transition-colors text-xs uppercase tracking-widest">
+                        Documentation
+                    </button>
+</div>
+</div>
+<div class="mt-20 grid grid-cols-3 gap-2">
+<div class="liquid-glass p-4 rounded-2xl text-center border-white/5">
+<p class="text-[9px] text-white/40 uppercase tracking-widest mb-1">Latency</p>
+<p class="text-lg font-bold text-white">0.08ms</p>
+</div>
+<div class="liquid-glass p-4 rounded-2xl text-center border-white/5">
+<p class="text-[9px] text-white/40 uppercase tracking-widest mb-1">Alpha</p>
+<p class="text-lg font-bold text-neon-purple">+18.4%</p>
+</div>
+<div class="liquid-glass p-4 rounded-2xl text-center border-white/5">
+<p class="text-[9px] text-white/40 uppercase tracking-widest mb-1">Status</p>
+<p class="text-lg font-bold text-neon-cyan">LIVE</p>
+</div>
+</div>
+</section>
+<section class="py-12 px-6 space-y-4">
+<div class="liquid-glass p-6 rounded-[2rem] border-white/5 relative overflow-hidden group">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-neon-cyan/5 blur-3xl"></div>
+<div class="flex items-start justify-between">
+<div class="space-y-2">
+<div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-white">token</span>
+</div>
+<h3 class="text-xl font-bold pt-2 text-white">Nebula Flow</h3>
+<p class="text-white/40 text-sm leading-relaxed">Dynamic rebalancing engine powered by high-gloss obsidian compute.</p>
+</div>
+</div>
+</div>
+<div class="liquid-glass p-6 rounded-[2rem] border-white/5 relative overflow-hidden group">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-neon-purple/5 blur-3xl"></div>
+<div class="flex items-start justify-between">
+<div class="space-y-2">
+<div class="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+<span class="material-symbols-outlined text-white">security</span>
+</div>
+<h3 class="text-xl font-bold pt-2 text-white">Hardened Stack</h3>
+<p class="text-white/40 text-sm leading-relaxed">Institutional-grade security with encrypted data sovereignty.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 px-6">
+<div class="liquid-glass rounded-[3rem] p-8 border-white/10 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-neon-purple/10 blur-[100px] -z-10"></div>
+<div class="flex justify-between items-start mb-10">
+<div>
+<p class="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-1">Minimum Allocation</p>
+<h3 class="text-5xl font-black tracking-tighter text-white">$1,000,000</h3>
+</div>
+</div>
+<div class="space-y-5 mb-10">
+<div class="flex justify-between items-center pb-4 border-b border-white/5">
+<span class="text-white/40 text-sm">Execution Engine</span>
+<span class="font-bold text-sm text-white">OBSIDIAN v4</span>
+</div>
+<div class="flex justify-between items-center pb-4 border-b border-white/5">
+<span class="text-white/40 text-sm">Priority Routing</span>
+<span class="font-bold text-sm text-neon-cyan">Enabled</span>
+</div>
+</div>
+<button class="white-glass-button w-full py-5 rounded-2xl text-black font-black text-lg transition-transform active:scale-95">
+                    Activate Protocol
+                </button>
+</div>
+</section>
+<footer class="pt-24 pb-12 px-8 relative mt-20">
+<div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+<div class="flex flex-col items-center text-center space-y-8">
+<div class="space-y-3">
+<div class="flex items-center justify-center gap-2">
+<div class="w-4 h-4 rounded-full bg-white blur-[1px]"></div>
+<span class="text-2xl font-black tracking-tighter text-white">QUANTUM</span>
+</div>
+<p class="text-white/30 text-[11px] leading-relaxed max-w-[240px] uppercase tracking-[0.4em] font-medium">
+                        PREMIUM INSTITUTIONAL TRADING HUB
+                    </p>
+</div>
+<div class="pt-12">
+<p class="text-[9px] text-white/20 uppercase tracking-[0.5em] font-bold">
+                        © 2024 • THE OBSIDIAN STANDARD
+                    </p>
+</div>
+</div>
+</footer>
+</main>
+<script>
+        const trailContainer = document.getElementById('cursor-trail-container');
+        const particleField = document.getElementById('particle-field');
+        const lens = document.getElementById('main-lens');
+        const PARTICLE_COUNT = 45;
+        const particles = [];
+        const colors = ['#00E5FF', '#BF5AF2', '#FF2D55', '#FFFFFF'];
+        let mouseX = 0;
+        let mouseY = 0;
+        let lastX = 0;
+        let lastY = 0;
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const el = document.createElement('div');
+            el.className = 'particle';
+            const size = Math.random() * 5 + 3;
+            el.style.width = `${size}px`;
+            el.style.height = `${size}px`;
+            el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            const p = {
+                el,
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                size
+            };
+            particleField.appendChild(el);
+            particles.push(p);
+        }
+        function updateParticles() {
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                const dx = mouseX - p.x;
+                const dy = mouseY - p.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    const angle = Math.atan2(dy, dx);
+                    const force = (120 - dist) / 6000;
+                    p.vx -= Math.cos(angle) * force;
+                    p.vy -= Math.sin(angle) * force;
+                }
+                if (p.x < 0) p.x = window.innerWidth;
+                if (p.x > window.innerWidth) p.x = 0;
+                if (p.y < 0) p.y = window.innerHeight;
+                if (p.y > window.innerHeight) p.y = 0;
+                const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+                const maxSpeed = 0.8;
+                if (speed > maxSpeed) {
+                    p.vx *= (maxSpeed / speed);
+                    p.vy *= (maxSpeed / speed);
+                }
+                p.el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+            });
+            requestAnimationFrame(updateParticles);
+        }
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            lens.style.left = `${mouseX}px`;
+            lens.style.top = `${mouseY}px`;
+            const dx = mouseX - lastX;
+            const dy = mouseY - lastY;
+            const speed = Math.sqrt(dx * dx + dy * dy);
+            if (speed > 1) {
+                const dot = document.createElement('div');
+                dot.className = 'trail-dot';
+                dot.style.left = `${mouseX}px`;
+                dot.style.top = `${mouseY}px`;
+                const scale = Math.min(1.2, 0.8 + speed / 80);
+                dot.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                trailContainer.appendChild(dot);
+                setTimeout(() => {
+                    dot.style.opacity = '0';
+                    dot.style.transform = `translate(-50%, -50%) scale(${scale * 0.5})`;
+                    setTimeout(() => dot.remove(), 1200);
+                }, 40);
+            }
+            lastX = mouseX;
+            lastY = mouseY;
+        });
+        updateParticles();
+    </script>
+
+</body></html>

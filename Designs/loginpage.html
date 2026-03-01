@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Obsidian Funded</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#06e4f9",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#0f2123",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+    body {
+        font-family: "Manrope", sans-serif;
+        background-color: #000;
+    }
+    .particles-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 50%, #0a1b1d 0%, #000 100%);
+    }
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    .particle-bokeh {
+        background: radial-gradient(circle, rgba(6, 228, 249, 0.2) 0%, rgba(6, 228, 249, 0) 70%);
+        filter: blur(12px);
+    }
+    .particle-sharp {
+        background: #fff;
+        box-shadow: 0 0 4px #06e4f9;
+    }
+    .particle-neon {
+        background: #06e4f9;
+        box-shadow: 0 0 6px rgba(6, 228, 249, 0.8);
+    }
+    .liquid-glass {
+        background: rgba(15, 33, 35, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(6, 228, 249, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    }
+    .primary-glow {
+        box-shadow: 0 0 15px rgba(6, 228, 249, 0.4);
+        transition: all 0.3s ease;
+    }
+    .primary-glow:hover {
+        box-shadow: 0 0 25px rgba(6, 228, 249, 0.6);
+        transform: translatey(-1px);
+    }
+    </style>
+</head>
+<body class="bg-background-dark text-white min-h-screen font-display flex flex-col overflow-x-hidden">
+<div class="particles-container">
+<div class="particle particle-bokeh w-32 h-32 top-[10%] left-[5%] opacity-20"></div>
+<div class="particle particle-bokeh w-48 h-48 top-[60%] left-[80%] opacity-30"></div>
+<div class="particle particle-bokeh w-40 h-40 top-[40%] left-[30%] opacity-10"></div>
+<div class="particle particle-bokeh w-64 h-64 top-[-10%] left-[70%] opacity-20"></div>
+<div class="particle particle-bokeh w-32 h-32 top-[80%] left-[20%] opacity-15"></div>
+<div class="particle particle-bokeh w-56 h-56 top-[20%] left-[45%] opacity-10"></div>
+<div class="particle particle-bokeh w-44 h-44 top-[75%] left-[55%] opacity-20"></div>
+<div class="particle particle-neon w-1 h-1 top-[15%] left-[25%] opacity-60"></div>
+<div class="particle particle-neon w-1.5 h-1.5 top-[45%] left-[65%] opacity-40"></div>
+<div class="particle particle-neon w-1 h-1 top-[85%] left-[15%] opacity-50"></div>
+<div class="particle particle-neon w-2 h-2 top-[22%] left-[88%] opacity-30"></div>
+<div class="particle particle-neon w-1 h-1 top-[70%] left-[55%] opacity-70"></div>
+<div class="particle particle-neon w-1.5 h-1.5 top-[10%] left-[45%] opacity-50"></div>
+<div class="particle particle-neon w-1 h-1 top-[92%] left-[78%] opacity-60"></div>
+<div class="particle particle-neon w-2 h-2 top-[8%] left-[92%] opacity-40"></div>
+<div class="particle particle-neon w-1 h-1 top-[50%] left-[20%] opacity-50"></div>
+<div class="particle particle-neon w-1.5 h-1.5 top-[30%] left-[40%] opacity-60"></div>
+<div class="particle particle-sharp w-0.5 h-0.5 top-[12%] left-[18%] opacity-80"></div>
+<div class="particle particle-sharp w-0.5 h-0.5 top-[25%] left-[42%] opacity-60"></div>
+<div class="particle particle-sharp w-1 h-1 top-[38%] left-[8%] opacity-90"></div>
+<div class="particle particle-sharp w-0.5 h-0.5 top-[52%] left-[24%] opacity-70"></div>
+<div class="particle particle-sharp w-1 h-1 top-[75%] left-[48%] opacity-80"></div>
+<div class="particle particle-sharp w-0.5 h-0.5 top-[88%] left-[32%] opacity-60"></div>
+<div class="particle particle-sharp w-0.5 h-0.5 top-[5%] left-[62%] opacity-70"></div>
+<div class="particle particle-sharp w-1 h-1 top-[18%] left-[75%] opacity-50"></div>
+<div class="particle particle-sharp w-0.5 h-0.5 top-[32%] left-[92%] opacity-80"></div>
+<div class="particle particle-sharp w-0.5 h-0.5 top-[48%] left-[84%] opacity-60"></div>
+<div class="particle particle-sharp w-1 h-1 top-[78%] left-[68%] opacity-70"></div>
+<div class="particle particle-sharp w-0.5 h-0.5 top-[92%] left-[88%] opacity-50"></div>
+</div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<header class="flex items-center justify-between px-6 py-6 lg:px-20">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 flex items-center justify-center bg-black border border-primary/40 rounded-lg">
+<svg class="text-primary w-6 h-6" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-xl font-extrabold tracking-tighter uppercase">Obsidian Funded</h2>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center px-4 py-12">
+<div class="w-full max-w-[480px] liquid-glass rounded-xl p-8 md:p-12">
+<div class="text-center mb-10">
+<h1 class="text-white text-4xl font-extrabold tracking-[0.15em] mb-2 uppercase">Login</h1>
+<p class="text-primary/70 text-sm font-semibold tracking-wider uppercase">Access your trading terminal</p>
+</div>
+<form class="space-y-6">
+<div class="flex flex-col gap-2">
+<label class="text-white/80 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">mail</span>
+                        Email Address
+                    </label>
+<input class="w-full bg-black/40 border border-white/10 rounded-lg h-14 px-4 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="name@obsidian.com" type="email"/>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<label class="text-white/80 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">lock</span>
+                            Password
+                        </label>
+<a class="text-[10px] text-primary/50 hover:text-primary uppercase tracking-widest font-bold" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-black/40 border border-white/10 rounded-lg h-14 px-4 pr-12 text-white placeholder:text-white/20 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-white/30 hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full h-14 bg-primary text-black font-extrabold uppercase tracking-widest rounded-lg primary-glow flex items-center justify-center gap-2 mt-4" type="submit">
+                    Sign In to Terminal
+                    <span class="material-symbols-outlined font-bold">arrow_forward</span>
+</button>
+</form>
+<div class="mt-8 pt-6 border-t border-white/10 text-center">
+<p class="text-white/40 text-sm">
+                    Don't have an account?
+                    <a class="text-primary font-bold hover:underline ml-1" href="#">Register</a>
+</p>
+</div>
+</div>
+<div class="mt-12 flex flex-wrap justify-center gap-8 md:gap-16 opacity-50 relative z-10">
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold text-primary/80 uppercase tracking-widest">Payouts</span>
+<span class="text-lg font-light">$42M+</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold text-primary/80 uppercase tracking-widest">Traders</span>
+<span class="text-lg font-light">125K</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold text-primary/80 uppercase tracking-widest">Uptime</span>
+<span class="text-lg font-light">99.9%</span>
+</div>
+</div>
+</main>
+<footer class="py-6 px-10 text-center text-[10px] text-white/20 uppercase tracking-[0.3em] relative z-10">
+        © 2024 Obsidian Funded Management Group. Secure Terminal.
+    </footer>
+</div>
+
+</body></html>
