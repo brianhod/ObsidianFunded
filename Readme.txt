@@ -20,3 +20,25 @@ dotnet ef dbcontext info `
   ef migrations remove
 
   localhost:5177/swagger/index.html
+
+   {
+  "userName": "brian",
+  "password": "password12345"
+}  on server
+
+propfirmroot
+
+Punkass!234
+
+
+getfxhpx_propfirm
+propfirmroot
+
+local
+
+"DefaultConnection": "server=localhost;port=3306;database=propfirm;user=root;password=root;SslMode=None;AllowPublicKeyRetrieval=True;"
+
+
+server
+    "DefaultConnection": "server=localhost;port=3306;database=getfxhpx_propfirm;user=getfxhpx_propfirm;password=propfirmroot;SslMode=None;AllowPublicKeyRetrieval=True;"
+
