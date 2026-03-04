@@ -1,6 +1,10 @@
 https://support.metaquotes.net/en/users/login
 https://github.com/Alisafirzadeh/php-mt5/blob/main/examples/client.php
 
+dotnet ef migrations add InitialCreate `
+  --project PropFirm.Infrastructure `
+  --startup-project PropFirmApp.Server
+
 dotnet ef dbcontext info `
   -p .\PropFirm.Infrastructure\PropFirm.Infrastructure.csproj `
   -s .\PropFirmApp.Server\PropFirmApp.Server.csproj `
@@ -12,3 +16,7 @@ dotnet ef dbcontext info `
   -c AppDbContext
 
   run this in the root of the project
+
+  ef migrations remove
+
+  localhost:5177/swagger/index.html

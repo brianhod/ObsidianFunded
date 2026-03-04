@@ -1,17 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using PropFirm.Dto;
-using PropfirmApp.Domain;
+using PropFirm.Infrastructure.Interface;
 
 namespace PropFirmApp.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/user")]
     public class UserController : ControllerBase
     {
-        [HttpPost("Getusers")]
-        public IEnumerable<UserDto> GetUser()
+        private readonly IUserService _user;
+
+        public UserController(IUserService user) => _user = user;
+    
+        [HttpPost("Register")]
+        public async Task<IActionResult> Login([FromBody] RegisterRequest req)
         {
-            return new List<UserDto>();
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var result = await _user.RegisterAsync(req, ip);
+            return result is null ? Unauthorized() : Ok(result);
         }
     }
 }

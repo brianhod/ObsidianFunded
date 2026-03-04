@@ -114,7 +114,7 @@ const Registration: React.FC = () => {
                     <div className="w-full max-w-[520px] liquid-glass rounded-xl p-8 md:p-10">
                         <div className="text-center mb-8">
                             <h1 className="text-3xl font-bold mb-2">
-                                Join the Master Class
+                                Create your account
                             </h1>
                             <p className="text-primary/70 text-sm">
                                 Create your proprietary trading account

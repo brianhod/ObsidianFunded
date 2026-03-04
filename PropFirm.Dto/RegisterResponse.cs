@@ -4,5 +4,5 @@ using System.Text;
 
 namespace PropFirm.Dto
 {
-    public record RegisterResponse(int UserId, string UserName);
+    public record RegisterResponse(Guid UserId, string UserName);
 }

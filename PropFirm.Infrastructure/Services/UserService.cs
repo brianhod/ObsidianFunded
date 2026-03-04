@@ -45,7 +45,7 @@ namespace PropFirm.Infrastructure.Services
             return Result<LoginResponse>.Ok(new LoginResponse(token));
         }
 
-        public async Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest request)
+        public async Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest request, string ip)
         {
             var username = request.UserName?.Trim();
 

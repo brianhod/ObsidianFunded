@@ -9,7 +9,6 @@ namespace PropFirmApp.Server.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _auth;
-
         public AuthController(IAuthService auth) => _auth = auth;
 
         [HttpPost("login")]

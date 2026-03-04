@@ -13,7 +13,7 @@ namespace PropFirm.Infrastructure.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
         public Guid Id { get; set; }
-        public int UserId { get; set; }
+        public Guid UserId { get; set; }
         public UserEntity User { get; set; } = default!;
 
         // Store only HASH in DB, never the raw token

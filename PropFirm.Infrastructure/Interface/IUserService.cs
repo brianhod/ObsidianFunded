@@ -7,7 +7,7 @@ namespace PropFirm.Infrastructure.Interface
 {
     public interface IUserService
     {
-        Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest request);
+        Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest request, string ip);
         Task<Result<LoginResponse>> LoginAsync(LoginRequest request);
     }
 }
