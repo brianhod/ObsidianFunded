@@ -66,6 +66,20 @@ namespace PropFirm.Infrastructure.Services
             {
                 UserName = username,
                 Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                FirstName = request.FirstName,
+                LastName = request.LastName,     
+                Email = request.Email,
+                PhoneNumberPrefix = request.PhoneNumberPrefix,
+                PhoneNumber = request.PhoneNumber,
+                Title = request.Title,
+                DetailsCorrect = request.DetailsCorrect,
+                EmailConfirmed = false,
+                DateOfBirth = request.DateofBirth,
+                TransactionDateTime = DateTime.UtcNow,
+                Over18 = request.Over18,
+                RecieveMarketingMaterial = request.RecieveMarketingMaterial,
+                ReferalCode = request.ReferalCode,
+
                 // Role = "User",          // if you add Role later
                 // TenantId = "tenant-1"   // if you add Tenant later
             };

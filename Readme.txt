@@ -42,3 +42,9 @@ local
 server
     "DefaultConnection": "server=localhost;port=3306;database=getfxhpx_propfirm;user=getfxhpx_propfirm;password=propfirmroot;SslMode=None;AllowPublicKeyRetrieval=True;"
 
+
+
+    dotnet ef migrations add UpdateUser --project .\PropFirm.Infrastructure\PropFirm.Infrastructure.csproj --startup-project .\PropfirmApp.Server\PropfirmApp.Server.csproj
+
+    dotnet ef database update --project .\PropFirm.Infrastructure\PropFirm.Infrastructure.csproj --startup-project .\PropfirmApp.Server\PropfirmApp.Server.csproj
+
