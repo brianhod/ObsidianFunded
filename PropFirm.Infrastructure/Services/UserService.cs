@@ -79,6 +79,7 @@ namespace PropFirm.Infrastructure.Services
                 Over18 = request.Over18,
                 RecieveMarketingMaterial = request.RecieveMarketingMaterial,
                 ReferalCode = request.ReferalCode,
+                RegisterFromIpAddress = ip
 
                 // Role = "User",          // if you add Role later
                 // TenantId = "tenant-1"   // if you add Tenant later

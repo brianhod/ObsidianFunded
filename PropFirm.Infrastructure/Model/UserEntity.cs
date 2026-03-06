@@ -31,5 +31,6 @@ namespace PropFirm.Infrastructure.Model
         public bool RecieveMarketingMaterial { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public DateTime EmailConfirmedDateTime { get; set; }
+        public string RegisterFromIpAddress { get; set; } = "";
     }
 }
