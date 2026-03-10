@@ -55,7 +55,8 @@ const PurchaseEvaluation: React.FC = () => {
       <div className="mt-16 liquid-glass p-8 rounded-2xl border border-white/5">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {[
-            { label: 'Platform', value: 'MetaTrader 5' },
+                      { label: 'Platform', value: 'MetaTrader 5' },
+                      { label: 'Platform', value: 'Ctrade' },
             { label: 'Instruments', value: 'FX, Metals, Crypto' },
             { label: 'Commission', value: '$2/Lot Round Turn' },
             { label: 'Scaling', value: 'Up to $2,000,000' },

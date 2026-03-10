@@ -9,6 +9,9 @@ using PropFirm.Infrastructure.Interface;
 using PropFirm.Infrastructure.Services;
 using PropFirmApp.Server.Handlers;
 using System.Text;
+using PropfirmApp.Domain;
+using PropFirm.Infrastructure.Model;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,11 +49,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization(options =>
 {
     // Roles
-    options.AddPolicy("AdminOnly", p => p.RequireRole("Admin"));
-
-   
+    options.AddPolicy("AdminOnly", p => p.RequireRole("Admin"));   
     options.AddPolicy("TenantRequired", p => p.RequireClaim("tenant_id"));
-
     options.AddPolicy("TenantMatch", p => p.AddRequirements(new TenantMatchRequirement()));
 });
 
@@ -68,6 +68,8 @@ var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(cs, new MySqlServerVersion(new Version(8, 0, 36))));
+
+//builder.Services.AddIdentity<UserEntity, IdentityRole>().AddEntityFramworkStores<ApplicationDbContext>();
 
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseMySql(
