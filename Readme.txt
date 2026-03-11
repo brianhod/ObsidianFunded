@@ -15,6 +15,17 @@ dotnet ef dbcontext info `
   -s .\PropFirmApp.Server\PropFirmApp.Server.csproj `
   -c AppDbContext
 
+
+  1. dotnet ef migrations add AddNewFieldName `
+  -p .\PropFirm.Infrastructure\PropFirm.Infrastructure.csproj `
+  -s .\PropFirmApp.Server\PropFirmApp.Server.csproj `
+  -c AppDbContext
+
+  2. dotnet ef database update `
+  -p .\PropFirm.Infrastructure\PropFirm.Infrastructure.csproj `
+  -s .\PropFirmApp.Server\PropFirmApp.Server.csproj `
+  -c AppDbContext
+
   run this in the root of the project
 
   ef migrations remove

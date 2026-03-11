@@ -90,7 +90,13 @@ namespace PropFirm.Infrastructure.Services
 
             _logger.LogInformation("User registered: {UserId} {UserName}", user.Id, user.UserName);
 
-            return Result<RegisterResponse>.Ok(new RegisterResponse(user.Id, user.UserName));
+            return Result<RegisterResponse>.Ok(new RegisterResponse
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Message = "Registration successful"
+            });
         }
         private string GenerateJwtToken(UserEntity user)
         {

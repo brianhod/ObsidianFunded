@@ -11,13 +11,19 @@ namespace PropFirmApp.Server.Controllers
         private readonly IUserService _user;
 
         public UserController(IUserService user) => _user = user;
-    
+
         [HttpPost("Register")]
-        public async Task<IActionResult> Login([FromBody] RegisterRequest req)
+        [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest req)
         {
             var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
             var result = await _user.RegisterAsync(req, ip);
-            return result is null ? Unauthorized() : Ok(result);
+
+            if (result is null || result.Data is null)
+                return BadRequest(new ErrorResponse { Message = "Registration failed" });
+
+            return Ok(result.Data);
         }
     }
 }

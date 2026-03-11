@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PropFirm.Infrastructure.Model
 {
-    [Table("account")]
+    [Table("Account")]
     public class Account
     {
         [Key]
