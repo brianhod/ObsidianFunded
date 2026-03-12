@@ -42,7 +42,14 @@ namespace PropFirm.Infrastructure.Services
 
             var token = GenerateJwtToken(user);
 
-            return Result<LoginResponse>.Ok(new LoginResponse(token));
+            return Result<LoginResponse>.Ok(new LoginResponse
+            {
+                AccessToken = token,
+                ExpiresIn = 90,
+                RefreshToken = token,
+                Message = "Login has been Successfull",
+                TokenType = "Bearer"
+            });
         }
 
         public async Task<Result<RegisterResponse>> RegisterAsync(RegisterRequest request, string ip)

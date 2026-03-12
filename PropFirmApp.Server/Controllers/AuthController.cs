@@ -12,11 +12,17 @@ namespace PropFirmApp.Server.Controllers
         public AuthController(IAuthService auth) => _auth = auth;
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest req)
+        [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
+        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest req)
         {
             var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
             var result = await _auth.LoginAsync(req.UserName, req.Password, ip);
-            return result is null ? Unauthorized() : Ok(result);
+
+            if (result is null)
+                return Unauthorized(new ErrorResponse { Message = "Invalid username or password." });
+
+            return Ok(result);
         }
 
         [HttpPost("refresh")]

@@ -7,8 +7,8 @@ namespace PropFirm.Dto
     public record RegisterResponse
     {
         public Guid Id { get; init; }
-        public required string UserName { get; init; }
-        public required string Email { get; init; }
-        public required string Message { get; init; }
+        public string UserName { get; init; } = default!;
+        public string Email { get; init; } = default!;
+        public string Message { get; init; } = default!;
     }
 }
