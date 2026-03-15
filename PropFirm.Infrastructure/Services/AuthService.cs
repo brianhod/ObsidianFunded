@@ -1,42 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Humanizer.Configuration;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
 using PropFirm.Dto;
 using PropFirm.Infrastructure.Interface;
 using PropFirm.Infrastructure.Model;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace PropFirm.Infrastructure.Services
 {
-
     public class AuthService : IAuthService
     {
         private readonly AppDbContext _db;
         private readonly ITokenService _tokens;
         private readonly ILogger<AuthService> _logger;
         private readonly IOptions<JwtSettings> _jwtOptions;
+        private readonly IConfiguration _configuration;
+        private readonly UserManager<UserEntity> _userManager;
 
-        public AuthService(
-            AppDbContext db,
-            ITokenService tokens,
-            IOptions<JwtSettings> jwtOptions,
-            ILogger<AuthService> logger)
+        public AuthService(AppDbContext db,ITokenService tokens,IOptions<JwtSettings> jwtOptions,IConfiguration configuration,  ILogger<AuthService> logger,
+            UserManager<UserEntity> userManager)
         {
             _db = db;
             _tokens = tokens;
             _jwtOptions = jwtOptions;
             _logger = logger;
+            _configuration = configuration;
+            _userManager = userManager;
         }
 
         public async Task<AuthResult?> LoginAsync(string username, string password, string? ip)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.UserName == username);
-            if (user == null) return null;
 
-            if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
+            if (user is  null || !await _userManager.CheckPasswordAsync(user, password))
+            {
                 return null;
+            }
+
+            //if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
+            //    return null;
+            //===========================================================
+            var roles = await _userManager.GetRolesAsync(user);
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+            var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+
+            List<Claim> claims = [ 
+                        new(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                        new(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Email, user.Email!),
+                        ..roles.Select(r => new Claim(ClaimTypes.Role, r))
+                        ];
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddMinutes(_configuration.GetValue<int>("Jwt:ExpirationInMinutes")),
+                SigningCredentials = credentials,
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"]
+            };
+
+            var tokenHandler = new JsonWebTokenHandler();
+            string accessToken = tokenHandler.CreateToken(tokenDescriptor);
+
+            //===========================================================
 
             var access = _tokens.GenerateAccessToken(user);
 

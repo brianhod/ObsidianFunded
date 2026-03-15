@@ -38,8 +38,8 @@ namespace PropFirm.Infrastructure.Services
         };
 
             // Roles (if you have them)
-            if (!string.IsNullOrWhiteSpace(user.Role))
-                claims.Add(new Claim(ClaimTypes.Role, user.Role));
+            //if (!string.IsNullOrWhiteSpace(user.))
+            //    claims.Add(new Claim(ClaimTypes.Role, user.Role));
 
             // Multi-tenant (if you have it)
             if (!string.IsNullOrWhiteSpace(user.TenantId))

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -17,16 +18,14 @@ namespace PropFirm.Infrastructure.Services
         private readonly AppDbContext _dbContext;
         private readonly ILogger<UserService> _logger;
         private readonly IConfiguration _configuration;
+        private readonly UserManager<UserEntity> _userManager;
 
-        public UserService(AppDbContext dbContext,
-           ILogger<UserService> logger,
-           IConfiguration configuration)
+        public UserService(UserManager<UserEntity> userManager, AppDbContext dbContext, ILogger<UserService> logger, IConfiguration configuration)
         {
-
+            _userManager = userManager;
             _dbContext = dbContext;
             _logger = logger;
             _configuration = configuration;
-
         }
 
         public async Task<Result<LoginResponse>> LoginAsync(LoginRequest request)
@@ -37,7 +36,7 @@ namespace PropFirm.Infrastructure.Services
             if (user == null)
                 return Result<LoginResponse>.Fail("Invalid username or password.");
 
-            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
                 return Result<LoginResponse>.Fail("Invalid username or password.");
 
             var token = GenerateJwtToken(user);
@@ -69,12 +68,16 @@ namespace PropFirm.Infrastructure.Services
             if (exists)
                 return Result<RegisterResponse>.Fail("Username already exists.");
 
+            var emailExists = await _dbContext.Users.AnyAsync(email => email.Email == request.Email);
+            if (emailExists)
+                return Result<RegisterResponse>.Fail("Email already exists.");
+
             var user = new UserEntity
             {
                 UserName = username,
-                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                //PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
                 FirstName = request.FirstName,
-                LastName = request.LastName,     
+                LastName = request.LastName,
                 Email = request.Email,
                 PhoneNumberPrefix = request.PhoneNumberPrefix,
                 PhoneNumber = request.PhoneNumber,
@@ -86,14 +89,32 @@ namespace PropFirm.Infrastructure.Services
                 Over18 = request.Over18,
                 RecieveMarketingMaterial = request.RecieveMarketingMaterial,
                 ReferalCode = request.ReferalCode,
-                RegisterFromIpAddress = ip
+                RegisterFromIpAddress = ip,
 
-                // Role = "User",          // if you add Role later
+
+                //Role = "User",          // if you add Role later
                 // TenantId = "tenant-1"   // if you add Tenant later
             };
 
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
+
+            //using var transaction = await _dbContext.Database.BeginTransactionAsync();
+
+
+            IdentityResult identityResult = await _userManager.CreateAsync(user, request.Password);
+
+            if (!identityResult.Succeeded)
+            {
+                StringBuilder sp = new StringBuilder();
+                foreach (var item in identityResult.Errors)
+                {
+                    sp.Append(item.Description);
+                }
+                return Result<RegisterResponse>.Fail("Registration Failed : " +  sp.ToString());
+            }
+
+
+            //_dbContext.Users.Add(user);
+            //await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation("User registered: {UserId} {UserName}", user.Id, user.UserName);
 

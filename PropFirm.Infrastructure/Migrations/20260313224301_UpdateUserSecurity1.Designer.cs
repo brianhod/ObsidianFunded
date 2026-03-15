@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PropFirm.Infrastructure;
 
@@ -11,9 +12,11 @@ using PropFirm.Infrastructure;
 namespace PropFirm.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260313224301_UpdateUserSecurity1")]
+    partial class UpdateUserSecurity1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -437,17 +440,13 @@ namespace PropFirm.Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("email");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("EmailConfirmedDateTime")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("EnableNotifications")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -516,14 +515,9 @@ namespace PropFirm.Infrastructure.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)")
-                        .HasColumnName("username");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Users_Email");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -531,10 +525,6 @@ namespace PropFirm.Infrastructure.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("UserName")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Users_Username");
 
                     b.ToTable("Users", (string)null);
                 });

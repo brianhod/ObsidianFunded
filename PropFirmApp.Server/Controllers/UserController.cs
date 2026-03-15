@@ -12,7 +12,7 @@ namespace PropFirmApp.Server.Controllers
 
         public UserController(IUserService user) => _user = user;
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         [ProducesResponseType(typeof(RegisterResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<RegisterResponse>> Register([FromBody] RegisterRequest req)
@@ -21,7 +21,7 @@ namespace PropFirmApp.Server.Controllers
             var result = await _user.RegisterAsync(req, ip);
 
             if (result is null || result.Data is null)
-                return BadRequest(new ErrorResponse { Message = "Registration failed" });
+                return BadRequest(new ErrorResponse { Message = result?.Error ?? "Registration failed" });
 
             return Ok(result.Data);
         }
