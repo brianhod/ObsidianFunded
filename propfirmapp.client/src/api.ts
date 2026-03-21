@@ -1,41 +1,42 @@
 const API_BASE = "https://app.obsidianfunded.com";
+//const API_BASE = "http://localhost:5177";
 
 export interface ErrorResponse {
-    message?: string;
+    message?: string | null;
 }
 
 export interface LoginRequest {
-    userName?: string;
-    password?: string;
+    userName?: string | null;
+    password?: string | null;
 }
 
 export interface LoginResponse {
-    accessToken?: string;
-    refreshToken?: string;
+    accessToken?: string | null;
+    refreshToken?: string | null;
     expiresIn?: number;
-    tokenType?: string;
-    message?: string;
+    tokenType?: string | null;
+    message?: string | null;
 }
 
 export interface RefreshRequest {
-    refreshToken?: string;
+    refreshToken?: string | null;
 }
 
 export interface RevokeRequest {
-    refreshToken?: string;
+    refreshToken?: string | null;
 }
 
 export interface RegisterRequest {
-    userName?: string;
-    title?: string;
-    firstName?: string;
-    lastName?: string;
+    userName?: string | null;
+    title?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
     dateofBirth?: string;
-    email?: string;
-    password?: string;
-    phoneNumberPrefix?: string;
-    phoneNumber?: string;
-    referalCode?: string;
+    email?: string | null;
+    password?: string | null;
+    phoneNumberPrefix?: string | null;
+    phoneNumber?: string | null;
+    referalCode?: string | null;
     over18?: boolean;
     detailsCorrect?: boolean;
     recieveMarketingMaterial?: boolean;
@@ -43,15 +44,18 @@ export interface RegisterRequest {
 
 export interface RegisterResponse {
     id?: string;
-    userName?: string;
-    email?: string;
-    message?: string;
+    userName?: string | null;
+    email?: string | null;
+    message?: string | null;
 }
 
-async function safeJson<T>(response: Response): Promise<T | null> {
+async function parseResponse<T>(response: Response): Promise<T | null> {
     const text = await response.text();
+
+    if (!text) return null;
+
     try {
-        return text ? (JSON.parse(text) as T) : null;
+        return JSON.parse(text) as T;
     } catch {
         return null;
     }
@@ -65,154 +69,107 @@ function getRefreshToken(): string | null {
     return localStorage.getItem("refreshToken");
 }
 
-function setTokens(accessToken?: string, refreshToken?: string): void {
-    if (accessToken) localStorage.setItem("accessToken", accessToken);
-    if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+function saveTokens(data: LoginResponse): void {
+    if (data.accessToken) {
+        localStorage.setItem("accessToken", data.accessToken);
+    }
+
+    if (data.refreshToken) {
+        localStorage.setItem("refreshToken", data.refreshToken);
+    }
 }
 
-function clearTokens(): void {
+export function clearTokens(): void {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
 }
 
-export async function registerUser(payload: RegisterRequest): Promise<RegisterResponse> {
-
-    const res = await fetch(`${API_BASE}/api/user/register`, {
-        method: "POST",
+async function request<TResponse>(
+    path: string,
+    options: RequestInit = {}
+): Promise<TResponse> {
+    const response = await fetch(`${API_BASE}${path}`, {
         headers: {
             "Content-Type": "application/json",
+            ...(options.headers || {}),
         },
+        ...options,
+    });
+
+    const data = await parseResponse<TResponse | ErrorResponse>(response);
+
+    if (!response.ok) {
+        const message =
+            (data as ErrorResponse | null)?.message || `Request failed: ${response.status}`;
+        throw new Error(message);
+    }
+
+    return (data ?? {}) as TResponse;
+}
+
+export async function registerUser(
+    payload: RegisterRequest
+): Promise<RegisterResponse> {
+    return request<RegisterResponse>("/api/user/register", {
+        method: "POST",
+        body: JSON.stringify(payload),
+    });
+}
+
+export async function loginUser(
+    payload: LoginRequest
+): Promise<LoginResponse> {
+    const data = await request<LoginResponse>("/api/auth/login", {
+        method: "POST",
         body: JSON.stringify(payload),
     });
 
-    const data = await safeJson<RegisterResponse | ErrorResponse>(res);
-
-    if (!res.ok) {
-        throw new Error((data as ErrorResponse)?.message || "Registration failed");
-    }
-
-    return (data as RegisterResponse) ?? {};
+    saveTokens(data);
+    return data;
 }
 
-export async function loginUser(payload: LoginRequest): Promise<LoginResponse> {
-
-    const url = `${API_BASE}/api/auth/login`;
-    console.log("Request URL:", url);
-
-    try {
-        const res = await fetch(`${API_BASE}/api/auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        });
-
-        const data = await safeJson<LoginResponse | ErrorResponse>(res);
-
-        if (!res.ok) {
-            throw new Error((data as ErrorResponse)?.message || "Login failed");
-        }
-
-        const loginData = (data as LoginResponse) ?? {};
-        setTokens(loginData.accessToken, loginData.refreshToken);
-        return loginData;
-
-    } catch (error) {
-        console.error("loginUser failed:", error);
-
-        if (error instanceof TypeError) {
-            throw new Error("Network error or CORS issue");
-        }
-
-        console.error("loginUser failed:", error);
-        throw error;
-    }
-    
-}
-
-export async function refreshAuthToken(): Promise<LoginResponse | Record<string, never>> {
+export async function refreshAuthToken(): Promise<LoginResponse> {
     const payload: RefreshRequest = {
-        refreshToken: getRefreshToken() ?? undefined,
+        refreshToken: getRefreshToken(),
     };
 
-    const res = await fetch(`${API_BASE}/api/auth/refresh`, {
+    const data = await request<LoginResponse>("/api/auth/refresh", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
         body: JSON.stringify(payload),
     });
 
-    const data = await safeJson<LoginResponse | ErrorResponse>(res);
-
-    if (!res.ok) {
-        throw new Error((data as ErrorResponse)?.message || "Token refresh failed");
-    }
-
-    const refreshData = (data as LoginResponse) ?? {};
-    setTokens(refreshData.accessToken, refreshData.refreshToken);
-
-    return refreshData;
+    saveTokens(data);
+    return data;
 }
 
-export async function revokeToken(): Promise<Record<string, never> | ErrorResponse> {
+export async function revokeToken(): Promise<unknown> {
     const payload: RevokeRequest = {
-        refreshToken: getRefreshToken() ?? undefined,
+        refreshToken: getRefreshToken(),
     };
 
-    const res = await fetch(`${API_BASE}/api/auth/revoke`, {
+    const data = await request<unknown>("/api/auth/revoke", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
         body: JSON.stringify(payload),
     });
-
-    const data = await safeJson<ErrorResponse>(res);
-
-    if (!res.ok) {
-        throw new Error(data?.message || "Token revoke failed");
-    }
 
     clearTokens();
-    return data ?? {};
+    return data;
 }
 
 export async function getAdminArea<T = unknown>(): Promise<T> {
-    const token = getAccessToken();
-
-    const res = await fetch(`${API_BASE}/api/admin/admin-area`, {
+    return request<T>("/api/admin/admin-area", {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getAccessToken()}`,
         },
     });
-
-    const data = await safeJson<T | ErrorResponse>(res);
-
-    if (!res.ok) {
-        throw new Error((data as ErrorResponse)?.message || "Failed to fetch admin area");
-    }
-
-    return data as T;
 }
 
 export async function getAdminPolicy<T = unknown>(): Promise<T> {
-    const token = getAccessToken();
-
-    const res = await fetch(`${API_BASE}/api/admin/admin-policy`, {
+    return request<T>("/api/admin/admin-policy", {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getAccessToken()}`,
         },
     });
-
-    const data = await safeJson<T | ErrorResponse>(res);
-
-    if (!res.ok) {
-        throw new Error((data as ErrorResponse)?.message || "Failed to fetch admin policy");
-    }
-
-    return data as T;
 }

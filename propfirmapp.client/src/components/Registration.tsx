@@ -1,4 +1,5 @@
 ﻿import React, { useState } from "react";
+import { registerUser } from "../api";
 
 type FormState = {
     firstName: string;
@@ -38,21 +39,53 @@ export default function ObsidianRegistration() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
-        const checked =
-            type === "checkbox" ? (e.target as HTMLInputElement).checked : false;
+        const checked = type === "checkbox" ? (e.target as HTMLInputElement).checked : false;
 
-        setForm((prev) => ({
-            ...prev,
-            [name]: type === "checkbox" ? checked : value,
-        }));
+        setForm((prev) => ({...prev, [name]: type === "checkbox" ? checked : value,}));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (form.password !== form.confirmPassword) {
+            console.error("Passwords do not match");
+            return;
+        }
+
+        if (!form.agreeTerms) {
+            console.error("You must agree to the terms");
+            return;
+        }
+
+        if (!form.confirmId) {
+            console.error("You must confirm ID availability");
+            return;
+        }
+
+        try {
+            const result = await registerUser({
+                userName: form.email,
+                title: form.title,
+                firstName: form.firstName,
+                lastName: form.lastName,
+                dateofBirth: form.dob,
+                email: form.email,
+                password: form.password,
+                phoneNumberPrefix: form.phoneCode,
+                phoneNumber: form.phoneNumber,
+                referalCode: form.referralCode,
+                over18: form.agreeTerms,
+                detailsCorrect: form.confirmId,
+                recieveMarketingMaterial: form.marketingOptIn,
+            });
+
+            console.log("Registration success:", result);
+        } catch (error) {
+            console.error("Registration failed:", error);
+        }
+
         console.log("Form Submitted:", form);
     };
     const countryOptions =
@@ -312,12 +345,8 @@ export default function ObsidianRegistration() {
     return (
         <div
             className="min-h-screen bg-[#020202] text-slate-100 selection:bg-cyan-400/30"
-            style={{
-                background:
-                    "radial-gradient(circle at 20% 30%, rgba(6, 228, 249, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 40%), #020202",
-                fontFamily: "Inter, sans-serif",
-            }}
-        >
+            style={{background:"radial-gradient(circle at 20% 30%, rgba(6, 228, 249, 0.05) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 40%), #020202",
+                fontFamily: "Inter, sans-serif",}} >
             <div className="flex min-h-screen w-full flex-col items-center justify-center p-4 md:p-8">
                 <div className="flex w-full max-w-[800px] flex-col items-center gap-8">
                     <div className="group flex flex-col items-center gap-2">
