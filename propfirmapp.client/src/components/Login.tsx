@@ -1,16 +1,24 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
-
+import { loginUser } from "../api";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        try {
+            const result = await loginUser({
+                userName: email,
+                password,
+            });
+            console.log("Login success:", result);
+        } catch (error) {
+            console.error("Login failed:", error);
+        }
         // Replace with real authentication logic
         console.log("Login attempt:", { email, password });
     };
@@ -85,8 +93,7 @@ const Login: React.FC = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                         placeholder="name@company.com"
-                                        className="w-full bg-[#1b2727]/50 border border-[#3a5555] focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all duration-300 rounded-lg h-12 px-4 text-white placeholder:text-slate-500 outline-none"
-                                    />
+                                        className="w-full bg-[#1b2727]/50 border border-[#3a5555] focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all duration-300 rounded-lg h-12 px-4 text-white placeholder:text-slate-500 outline-none"/>
                                 </div>
 
                                 {/* Password */}
@@ -95,10 +102,7 @@ const Login: React.FC = () => {
                                         <label className="text-slate-300 text-sm font-medium">
                                             Password
                                         </label>
-                                        <a
-                                            href="#"
-                                            className="text-primary text-xs font-semibold hover:underline"
-                                        >
+                                        <a href="#" className="text-primary text-xs font-semibold hover:underline">
                                             Forgot Password?
                                         </a>
                                     </div>

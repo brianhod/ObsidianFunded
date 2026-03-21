@@ -1,16 +1,18 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using PropFirm.Dto;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using PropFirm.Dto;
 using PropFirm.Infrastructure;
 using PropFirm.Infrastructure.Interface;
+using PropFirm.Infrastructure.Model;
 using PropFirm.Infrastructure.Services;
 using PropFirmApp.Server.Handlers;
 using System.Text;
-using PropFirm.Infrastructure.Model;
-using Microsoft.AspNetCore.Identity;
+using static System.Net.WebRequestMethods;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,14 +55,52 @@ builder.Services.AddAuthorization(options =>
 });
 
 
+
+
 builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSingleton<IAuthorizationHandler, TenantMatchHandler>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
 builder.Services.AddEndpointsApiExplorer();
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("origins", policy =>
+//    {
+//        policy.WithOrigins(
+//                "http://localhost:3000",
+//                "http://localhost:5177"
+//            )
+//            .SetPreflightMaxAge(TimeSpan.FromHours(1))
+//            .AllowAnyHeader()
+//            .AllowAnyMethod();
+//    });
+//});
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("origins", policy =>
+    {
+        policy.WithOrigins(
+             "http://app.obsidianfunded.com",
+             "https://app.obsidianfunded.com",
+             "http://www.obsidianfunded.com",
+             "https://www.obsidianfunded.com",
+             "https://obsidianfunded.com"
+            )
+            .SetPreflightMaxAge(TimeSpan.FromHours(1))
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddSwaggerGen();
 //builder.Services.AddOpenApi();
+
 
 var cs = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -106,6 +146,11 @@ app.UseSwaggerUI();
 //    app.UseSwagger();
 //    app.UseSwaggerUI();
 //}
+
+
+app.UseHttpsRedirection();
+
+app.UseCors("origins");
 
 app.UseAuthentication();
 app.UseAuthorization();
