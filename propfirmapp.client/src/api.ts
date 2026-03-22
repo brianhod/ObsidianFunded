@@ -1,6 +1,6 @@
-const API_BASE = "https://app.obsidianfunded.com";
+export const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5177";
+//const API_BASE = "https://app.obsidianfunded.com";
 //const API_BASE = "http://localhost:5177";
-
 export interface ErrorResponse {
     message?: string | null;
 }
