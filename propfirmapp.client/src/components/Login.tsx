@@ -2,24 +2,29 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { loginUser } from "../api";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const from = location.state?.from?.pathname || "/dashboard";
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
         e.preventDefault();
         try {
-            const result = await loginUser({
-                userName: email,
-                password,
-            });
+            const result = await loginUser({ userName: email, password, });
+            navigate(from, { replace: true });
             console.log("Login success:", result);
         } catch (error) {
             console.error("Login failed:", error);
         }
-        // Replace with real authentication logic
         console.log("Login attempt:", { email, password });
     };
 

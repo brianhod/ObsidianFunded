@@ -48,7 +48,7 @@ export type RegistrationSuccessfulPageProps = {
 };
 
 const RegistrationSuccessfulPage: React.FC<RegistrationSuccessfulPageProps> = ({
-    dashboardHref = "#",
+    dashboardHref = "/login",
     onGoToDashboard,
     title = "Registration Successful",
     subtitle = "Welcome to the elite.",
@@ -57,15 +57,10 @@ const RegistrationSuccessfulPage: React.FC<RegistrationSuccessfulPageProps> = ({
     footerNote = "Verification link expires in 24 hours",
     footerText = "© " + new Date().getFullYear() +" Obsidian Funded Management Group. Secure Terminal.",
 }) => {
+
     return (
         <div className="min-h-screen w-full bg-black text-white overflow-x-hidden">
-            <div
-                className="fixed inset-0 z-0"
-                style={{
-                    background:
-                        "radial-gradient(circle at 50% 50%, #0a1b1d 0%, #000 100%)",
-                }}
-            />
+            <div className="fixed inset-0 z-0" style={{ background: "radial-gradient(circle at 50% 50%, #0a1b1d 0%, #000 100%)",}}/>
 
             <div className="relative z-10 flex min-h-screen flex-col">
                 <main className="flex flex-1 flex-col items-center justify-center px-4 py-12">
@@ -95,17 +90,14 @@ const RegistrationSuccessfulPage: React.FC<RegistrationSuccessfulPageProps> = ({
                             <button
                                 type="button"
                                 onClick={onGoToDashboard}
-                                className="group flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-[#06e4f9] font-extrabold uppercase tracking-widest text-black transition-all hover:-translate-y-[1px] hover:shadow-[0_0_30px_rgba(6,228,249,0.7)] shadow-[0_0_20px_rgba(6,228,249,0.5)]"
-                            >
-                                Go to Dashboard
+                                className="group flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-[#06e4f9] font-extrabold uppercase tracking-widest text-black transition-all hover:-translate-y-[1px] hover:shadow-[0_0_30px_rgba(6,228,249,0.7)] shadow-[0_0_20px_rgba(6,228,249,0.5)]">
+                                Go to Login
                                 <ArrowRightIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                             </button>
                         ) : (
-                            <a
-                                href={dashboardHref}
-                                className="group flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-[#06e4f9] font-extrabold uppercase tracking-widest text-black transition-all hover:-translate-y-[1px] hover:shadow-[0_0_30px_rgba(6,228,249,0.7)] shadow-[0_0_20px_rgba(6,228,249,0.5)]"
+                            <a href={dashboardHref} className="group flex h-14 w-full items-center justify-center gap-2 rounded-lg bg-[#06e4f9] font-extrabold uppercase tracking-widest text-black transition-all hover:-translate-y-[1px] hover:shadow-[0_0_30px_rgba(6,228,249,0.7)] shadow-[0_0_20px_rgba(6,228,249,0.5)]"
                             >
-                                Go to Dashboard
+                                Go to Login
                                 <ArrowRightIcon className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                             </a>
                         )}

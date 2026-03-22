@@ -24,6 +24,7 @@ const App: React.FC = () => {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Dashboard />} />
                     <Route path="terms" element={<TermsAndConditions />} />
+                    <Route path="dashboard" element={<Dashboard />} />
                     <Route path="purchase" element={<PurchaseEvaluation />} />
                     <Route path="risktools" element={<RiskManagementTool />} />
                     <Route path="registrationdone" element={<RegistrationSuccessfulPage />} />

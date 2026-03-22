@@ -1,5 +1,6 @@
 ﻿import React, { useState } from "react";
 import { registerUser } from "../api";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type FormState = {
     firstName: string;
@@ -38,6 +39,11 @@ export default function ObsidianRegistration() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const from = location.state?.from?.pathname || "/registrationdone";
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -80,7 +86,8 @@ export default function ObsidianRegistration() {
                 detailsCorrect: form.confirmId,
                 recieveMarketingMaterial: form.marketingOptIn,
             });
-
+           
+            navigate(from, { replace: true });
             console.log("Registration success:", result);
         } catch (error) {
             console.error("Registration failed:", error);

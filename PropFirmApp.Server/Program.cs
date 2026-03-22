@@ -66,35 +66,18 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("origins", policy =>
-//    {
-//        policy.WithOrigins(
-//                "http://localhost:3000",
-//                "http://localhost:5177"
-//            )
-//            .SetPreflightMaxAge(TimeSpan.FromHours(1))
-//            .AllowAnyHeader()
-//            .AllowAnyMethod();
-//    });
-//});
+var corsOrigins = builder.Configuration
+    .GetSection("security:cors").Value ?? String.Empty;
 
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("origins", policy =>
     {
-        policy.WithOrigins(
-             "http://app.obsidianfunded.com",
-             "https://app.obsidianfunded.com",
-             "http://www.obsidianfunded.com",
-             "https://www.obsidianfunded.com",
-             "https://obsidianfunded.com"
-            )
-            .SetPreflightMaxAge(TimeSpan.FromHours(1))
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        policy.WithOrigins(corsOrigins)
+              .SetPreflightMaxAge(TimeSpan.FromHours(1))
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
