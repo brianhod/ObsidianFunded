@@ -109,13 +109,25 @@ namespace PropFirm.Infrastructure.Services
                 {
                     sp.Append(item.Description);
                 }
+
+                var userId = user.Id;
+                var profileenty = new ProfileEntity()
+                {
+                    DateOfBirth = user.DateOfBirth,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName= user.LastName,
+                    Title = user.Title,
+                    UserId = user.Id
+                };
+
+                await _dbContext.Profiles.AddAsync(profileenty);
+                await _dbContext.SaveChangesAsync();
+
                 return Result<RegisterResponse>.Fail("Registration Failed : " +  sp.ToString());
             }
 
-
-            //_dbContext.Users.Add(user);
-            //await _dbContext.SaveChangesAsync();
-
+           
             _logger.LogInformation("User registered: {UserId} {UserName}", user.Id, user.UserName);
 
             return Result<RegisterResponse>.Ok(new RegisterResponse
